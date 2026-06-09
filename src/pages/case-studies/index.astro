@@ -7,6 +7,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Img from '../../components/Img.astro';
 import { caseStudies as allStudies } from '../../data/case-studies.mjs';
+import { url } from '../../utils/url.mjs';
 
 // Single source of truth: derive the cards from the shared data.
 // thumb = heroImage; design cards carry award numerals, art cards carry discipline · year.
@@ -64,7 +65,7 @@ const tabs = ['all', ...presentTypes];
     <div class="container">
       <div class="bento" id="projects-grid">
         {caseStudies.map((cs, i) => (
-          <a href={`/case-studies/${cs.slug}`} class="bento-card" data-card data-type={cs.type} data-reveal>
+          <a href={url(`/case-studies/${cs.slug}`)} class="bento-card" data-card data-type={cs.type} data-reveal>
             <div class="frame bento-frame" data-reveal="clip">
               {cs.hasMedia ? (
                 <Img src={`case-studies/${cs.thumb}`} alt={cs.title} loading={i < 2 ? 'eager' : 'lazy'} />

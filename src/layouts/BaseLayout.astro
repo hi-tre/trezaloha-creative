@@ -3,6 +3,7 @@
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import { socials, contact } from '../data/site.mjs';
+import { url } from '../utils/url.mjs';
 import '../styles/global.css';
 
 interface Props {
@@ -26,8 +27,9 @@ const fullTitle = title === 'Home'
   : `${title} — Trezaloha Creative`;
 
 // Absolute URLs for canonical / Open Graph (Astro.site is set in astro.config.mjs).
+// Astro.url.pathname already includes the base; ogImage is base-prefixed via url().
 const canonicalURL = new URL(Astro.url.pathname, Astro.site).href;
-const ogImageURL = new URL(ogImage, Astro.site).href;
+const ogImageURL = new URL(url(ogImage), Astro.site).href;
 
 // Site-wide structured data so search engines understand the studio + its socials.
 const orgSchema = {
@@ -35,7 +37,7 @@ const orgSchema = {
   '@type': 'Organization',
   name: 'Trezaloha Creative',
   url: Astro.site?.href,
-  logo: new URL('/images/trezaloha-wordmark.png', Astro.site).href,
+  logo: new URL(url('/images/trezaloha-wordmark.png'), Astro.site).href,
   description,
   email: contact.email,
   sameAs: socials.map((s) => s.href),
@@ -69,7 +71,7 @@ const orgSchema = {
   <script type="application/ld+json" set:html={JSON.stringify(orgSchema)} />
 
   <!-- Favicon -->
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/svg+xml" href={url('/favicon.svg')} />
 
   <!-- Scroll-reveal: arm the hidden state synchronously so there's no flash.
        Only when motion is allowed AND IntersectionObserver exists (else everything
@@ -101,7 +103,7 @@ const orgSchema = {
 
   <!-- ── Page-transition wipe overlay (full-reload, gated by pt-ready) ── -->
   <div class="page-transition" aria-hidden="true">
-    <img src="/images/trezaloha-wordmark.png" alt="" />
+    <img src={url('/images/trezaloha-wordmark.png')} alt="" />
   </div>
 
   <style is:global>

@@ -1,6 +1,7 @@
 ---
 // src/pages/kahua-deck.astro, editorial redesign (white/black, Anton, gold accent)
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { url } from '../utils/url.mjs';
 
 const principles = [
   { label: 'Story is method',          body: 'Moʻolelo carries theory, practice, and memory across generations.' },
@@ -152,7 +153,7 @@ const faqs = [
       <div class="kd-cta" data-reveal>
         <h3 class="kd-cta-title">Want to learn more or share feedback?</h3>
         <p class="kd-cta-body kd-body--light">Interested in bringing the ʻŌiwi Design Thinking Deck into your classroom, organization, or creative space? Have feedback, questions, or want to collaborate on expanding this work?</p>
-        <a href="/contact-us" class="btn btn-primary">Reach Out →</a>
+        <a href={url('/contact-us')} class="btn btn-primary">Reach Out →</a>
       </div>
     </div>
   </section>

@@ -1,5 +1,6 @@
 ---
 // Nav.astro, editorial minimal navbar (white base, black ink, gold hover)
+import { url } from '../utils/url.mjs';
 const navLinks = [
   { label: 'About',    href: '/about' },
   { label: 'Projects', href: '/case-studies' },
@@ -7,27 +8,28 @@ const navLinks = [
   { label: 'Field Notes', href: '/field-notes' },
 ];
 const currentPath = Astro.url.pathname;
-const isActive = (href) => href === '/' ? currentPath === '/' : currentPath.startsWith(href);
+// Compare against base-prefixed paths so active state works under a subfolder.
+const isActive = (href) => href === '/' ? currentPath === url('/') : currentPath.startsWith(url(href));
 ---
 
 <header class="nav" id="main-nav">
   <div class="nav-inner">
     <!-- Left cluster: logo + primary links -->
     <div class="nav-left">
-      <a href="/" class="nav-logo" aria-label="Trezaloha Creative, Home">
-        <img src="/images/trezaloha-wordmark.png" alt="Trezaloha Creative" class="nav-logo-img" />
+      <a href={url('/')} class="nav-logo" aria-label="Trezaloha Creative, Home">
+        <img src={url('/images/trezaloha-wordmark.png')} alt="Trezaloha Creative" class="nav-logo-img" />
       </a>
       <nav class="nav-group" aria-label="Main navigation">
-        <a href="/about" class={`nav-link ${isActive('/about') ? 'active' : ''}`}>About</a>
-        <a href="/case-studies" class={`nav-link ${isActive('/case-studies') ? 'active' : ''}`}>Projects</a>
-        <a href="/services" class={`nav-link ${isActive('/services') ? 'active' : ''}`}>Services</a>
+        <a href={url('/about')} class={`nav-link ${isActive('/about') ? 'active' : ''}`}>About</a>
+        <a href={url('/case-studies')} class={`nav-link ${isActive('/case-studies') ? 'active' : ''}`}>Projects</a>
+        <a href={url('/services')} class={`nav-link ${isActive('/services') ? 'active' : ''}`}>Services</a>
       </nav>
     </div>
 
     <!-- Right cluster -->
     <nav class="nav-group nav-right" aria-label="Secondary navigation">
-      <a href="/field-notes" class={`nav-link ${isActive('/field-notes') ? 'active' : ''}`}>Field Notes</a>
-      <a href="/contact-us" class={`nav-link ${isActive('/contact-us') ? 'active' : ''}`}>Contact</a>
+      <a href={url('/field-notes')} class={`nav-link ${isActive('/field-notes') ? 'active' : ''}`}>Field Notes</a>
+      <a href={url('/contact-us')} class={`nav-link ${isActive('/contact-us') ? 'active' : ''}`}>Contact</a>
     </nav>
 
     <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
@@ -37,9 +39,9 @@ const isActive = (href) => href === '/' ? currentPath === '/' : currentPath.star
 
   <div class="nav-mobile" id="nav-mobile" aria-hidden="true">
     {navLinks.map(link => (
-      <a href={link.href} class="nav-mobile-link">{link.label}</a>
+      <a href={url(link.href)} class="nav-mobile-link">{link.label}</a>
     ))}
-    <a href="/contact-us" class="nav-mobile-link">Contact</a>
+    <a href={url('/contact-us')} class="nav-mobile-link">Contact</a>
   </div>
 </header>
 

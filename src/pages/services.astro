@@ -3,6 +3,7 @@
 // Two spheres (Design + Art) framed by one ʻōiwi approach, woven through with real work imagery.
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Img from '../components/Img.astro';
+import { url } from '../utils/url.mjs';
 
 // Full-bleed hero image band (detail shots from real projects)
 const strip = ['piko-2.jpg', 'isle-3.jpg', 'hana-2.jpg', 'coral-2.jpg', 'ikebase-3.jpg', 'somm-2.jpg'];
@@ -154,14 +155,14 @@ const process = [
     </div>
     <div class="svc-work-grid">
       {work.map((w, i) => (
-        <a href={`/case-studies/${w.slug}`} class={`svc-work-item frame svc-work-item--${i + 1}`} data-reveal="clip" style={`--i:${i % 3}`}>
+        <a href={url(`/case-studies/${w.slug}`)} class={`svc-work-item frame svc-work-item--${i + 1}`} data-reveal="clip" style={`--i:${i % 3}`}>
           <Img src={`case-studies/${w.img}`} alt={w.title} loading="lazy" />
           <span class="svc-work-cap">{w.title}</span>
         </a>
       ))}
     </div>
     <div class="container">
-      <a href="/case-studies" class="link svc-work-link" data-reveal>See all projects →</a>
+      <a href={url('/case-studies')} class="link svc-work-link" data-reveal>See all projects →</a>
     </div>
   </section>
 
@@ -210,7 +211,7 @@ const process = [
         <p class="eyebrow svc-eyebrow-light">Let's make something</p>
         <h2 class="svc-cta-title" data-reveal="mask"><span>Have a project, a piece, or an idea in mind?</span></h2>
         <p class="svc-cta-text">Tell me about it. The best work starts with a conversation, not a brief.</p>
-        <a href="/contact-us" class="btn btn-primary svc-cta-btn">Get in touch →</a>
+        <a href={url('/contact-us')} class="btn btn-primary svc-cta-btn">Get in touch →</a>
       </div>
     </div>
   </section>

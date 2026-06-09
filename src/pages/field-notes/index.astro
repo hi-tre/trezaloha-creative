@@ -6,6 +6,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Cover from '../../components/Cover.astro';
 import Img from '../../components/Img.astro';
 import { articles } from '../../data/articles.mjs';
+import { url } from '../../utils/url.mjs';
 
 // Filter tabs: All + the tags actually present, in a stable order.
 const TAG_ORDER = ['Culture', 'Art', 'Design', 'Practice'];
@@ -36,7 +37,7 @@ const tags = ['All', ...present, ...Array.from(new Set(articles.map(a => a.tag))
       <div class="news-grid bento" id="news-grid">
         {articles.map((a, i) => {
           return (
-            <a href={`/field-notes/${a.slug}`} class="news-card bento-card" data-card data-tag={a.tag} data-reveal>
+            <a href={url(`/field-notes/${a.slug}`)} class="news-card bento-card" data-card data-tag={a.tag} data-reveal>
               <div class="news-thumb frame" data-reveal="clip">
                 {a.thumb
                   ? <Img src={`articles/${a.thumb}`} alt={a.title} loading={i < 2 ? 'eager' : 'lazy'} />

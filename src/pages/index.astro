@@ -4,6 +4,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Img from '../components/Img.astro';
 import Cover from '../components/Cover.astro';
+import { url } from '../utils/url.mjs';
 
 // Uniform base size — horizontal POSITION drives the size (small at left → big at right),
 // applied as a live scale in the scroll loop. Widths vary a little for rhythm.
@@ -33,7 +34,7 @@ const copies = [0, 1];
         <div class="proj-set" aria-hidden={copy === 1 ? 'true' : undefined}>
           {work.map((t, i) => (
             <a
-              href={`/case-studies/${t.slug}`}
+              href={url(`/case-studies/${t.slug}`)}
               class="tile"
               style={`width:${t.w}vw`}
               tabindex={copy === 1 ? -1 : undefined}

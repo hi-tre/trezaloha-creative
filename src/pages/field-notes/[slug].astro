@@ -6,6 +6,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Img from '../../components/Img.astro';
 import Cover from '../../components/Cover.astro';
 import { articles } from '../../data/articles.mjs';
+import { url } from '../../utils/url.mjs';
 
 export function getStaticPaths() {
   return articles.map(article => ({
@@ -45,7 +46,7 @@ const readTime = Math.max(1, Math.ceil(wordCount / 200));
           <div class="rp-topics">
             {article.topics.map(t => <span class="rp-topic">{t}</span>)}
           </div>
-          <a href="/field-notes" class="link rp-back">← All Notes</a>
+          <a href={url('/field-notes')} class="link rp-back">← All Notes</a>
         </div>
       </div>
     </div>
@@ -110,7 +111,7 @@ const readTime = Math.max(1, Math.ceil(wordCount / 200));
           <span class="author-name">Trezaloha Creative</span>
           <span class="author-role">ʻŌiwi Design Studio · Honolulu, Hawaiʻi</span>
         </div>
-        <a href="/field-notes" class="btn btn-outline rp-author-cta">← All Notes</a>
+        <a href={url('/field-notes')} class="btn btn-outline rp-author-cta">← All Notes</a>
       </div>
     </div>
   </section>
@@ -124,7 +125,7 @@ const readTime = Math.max(1, Math.ceil(wordCount / 200));
         <ul class="rp-related-grid">
           {related.map((a, i) => (
             <li>
-              <a href={`/field-notes/${a.slug}`} class="rp-related-card">
+              <a href={url(`/field-notes/${a.slug}`)} class="rp-related-card">
                 <div class="rp-related-img frame" data-reveal="clip" style={`--i:${i}`}>
                   {a.thumb
                     ? <Img src={`articles/${a.thumb}`} alt={a.title} loading="lazy" />

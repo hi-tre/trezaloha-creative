@@ -2,6 +2,7 @@
 // src/pages/404.astro — branded not-found page in the editorial style.
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { menuLinks } from '../data/site.mjs';
+import { url } from '../utils/url.mjs';
 ---
 
 <BaseLayout title="Page Not Found" description="The page you were looking for could not be found.">
@@ -13,9 +14,9 @@ import { menuLinks } from '../data/site.mjs';
         This page drifted off the map. Let's get you back to shore — try one of these instead:
       </p>
       <nav class="nf-links" aria-label="Helpful links">
-        <a href="/" class="link">Home →</a>
+        <a href={url('/')} class="link">Home →</a>
         {menuLinks.map((l) => (
-          <a href={l.href} class="link">{l.label} →</a>
+          <a href={url(l.href)} class="link">{l.label} →</a>
         ))}
       </nav>
     </div>

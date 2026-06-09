@@ -1,6 +1,7 @@
 ---
 // Footer.astro, blue "Let's Chat" footer (matches old trezalohacreative.com)
 import { contactFormAction, lookbookAction, lookbookConfirmUrl, contact, socials, menuLinks, serviceLinks } from '../data/site.mjs';
+import { url } from '../utils/url.mjs';
 
 const year = new Date().getFullYear();
 
@@ -48,10 +49,10 @@ const icons = {
       <div class="footer-cols">
         <div class="footer-col">
           <p class="footer-col-heading">Menu</p>
-          {menuLinks.map(l => <a href={l.href}>{l.label}</a>)}
+          {menuLinks.map(l => <a href={url(l.href)}>{l.label}</a>)}
         </div>
         <div class="footer-col">
-          <a href="/services" class="footer-col-heading footer-col-heading--link">Services</a>
+          <a href={url('/services')} class="footer-col-heading footer-col-heading--link">Services</a>
           {serviceLinks.map(s => <span class="footer-col-text">{s}</span>)}
         </div>
       </div>

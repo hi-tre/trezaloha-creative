@@ -2,6 +2,7 @@
 // src/pages/about.astro
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Img from '../components/Img.astro';
+import { url } from '../utils/url.mjs';
 
 const brandLogos = [
   { file: 'pmf-horizontal-logo.png', name: 'Purple Maiʻa Foundation' },
@@ -69,7 +70,7 @@ const faqs = [
             for clients. As an <strong>artist</strong>, I make by hand across several media: Hawaiian
             <em>kapa</em>, woodworking, illustration, acrylic, and exhibition design. Each feeds the other.
             The patience of handwork shapes how I design, and design sharpens what I make by hand. You'll
-            find both side by side on the <a href="/case-studies" class="link">Projects</a> page.
+            find both side by side on the <a href={url('/case-studies')} class="link">Projects</a> page.
           </p>
 
           <div class="about-tabs">
