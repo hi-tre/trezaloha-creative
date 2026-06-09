@@ -28,6 +28,15 @@ const copies = [0, 1];
 
 <BaseLayout title="Home" scroll="horizontal" footer={false}>
 
+  <!-- fixed page furniture (does NOT move on scroll) — first in DOM so it sits
+       ABOVE the projects when stacked vertically on mobile -->
+  <header class="proj-head">
+    <p class="eyebrow">ʻŌiwi Designer &amp; Artist · Hawaiʻi</p>
+    <h1 class="proj-title">Pixel&nbsp;Perfect<br />Storytelling</h1>
+    <p class="proj-tagline">Designer and multidisciplinary artist making culture-rooted brands, products, and art through an ʻōiwi lens.</p>
+  </header>
+  <div class="h-hint" aria-hidden="true">Scroll <span>→</span></div>
+
   <section class="proj-viewport">
     <div class="proj-track" id="proj-track">
       {copies.map((copy) => (
@@ -56,14 +65,6 @@ const copies = [0, 1];
       ))}
     </div>
   </section>
-
-  <!-- fixed page furniture (does NOT move on scroll) -->
-  <header class="proj-head">
-    <p class="eyebrow">ʻŌiwi Designer &amp; Artist · Hawaiʻi</p>
-    <h1 class="proj-title">Pixel&nbsp;Perfect<br />Storytelling</h1>
-    <p class="proj-tagline">Designer and multidisciplinary artist making culture-rooted brands, products, and art through an ʻōiwi lens.</p>
-  </header>
-  <div class="h-hint" aria-hidden="true">Scroll <span>→</span></div>
 
 </BaseLayout>
 
@@ -156,7 +157,7 @@ const copies = [0, 1];
     .tile { width: 100% !important; }
     .tile-img { height: 58vh !important; }
     .h-hint { display: none; }
-    .proj-head { position: static; max-width: 100%; padding: var(--nav-height) var(--gutter) 0; }
+    .proj-head { position: static; max-width: 100%; padding: var(--space-md) var(--gutter) var(--space-sm); }
   }
   @media (prefers-reduced-motion: reduce) {
     .proj-viewport { height: auto; overflow: visible; }
@@ -166,7 +167,7 @@ const copies = [0, 1];
     .tile { width: 100% !important; }
     .tile-img { height: 58vh !important; }
     .h-hint { display: none; }
-    .proj-head { position: static; max-width: 100%; padding: var(--nav-height) var(--gutter) 0; }
+    .proj-head { position: static; max-width: 100%; padding: var(--space-md) var(--gutter) var(--space-sm); }
   }
 </style>
 
