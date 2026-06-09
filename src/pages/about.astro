@@ -1,0 +1,462 @@
+---
+// src/pages/about.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Img from '../components/Img.astro';
+
+const brandLogos = [
+  { file: 'pmf-horizontal-logo.png', name: 'Purple Maiʻa Foundation' },
+  { file: 'kapcc-logo.png', name: 'Kapiʻolani Community College' },
+  { file: 'makuu-logo.png', name: 'Mākuʻu' },
+  { file: 'nmccap-logo.png', name: 'NMCCAP' },
+  { file: 'pele-logo.png', name: 'Pele Awards' },
+  { file: 'hoot-logo.png', name: 'The Hoot' },
+  { file: 'indigiexchange-logo.png', name: 'IndigiExchange' },
+  { file: 'pueooku-logo.png', name: 'Pueo ʻŌku' },
+  { file: 'tfiiw-logo.png', name: 'TFIIW' },
+  { file: 'cca-logo-b.png', name: 'Coral Collective AI' },
+];
+
+const featuredLogos = ['pele-logo.png', 'kapcc-logo.png', 'nmccap-logo.png', 'makuu-logo.png', 'pmf-horizontal-logo.png'];
+
+const values = ['Mindfulness','Personalization','Reliability','Collaboration','Innovation','User-centric','Empowerment','Cultural Stewardship','Passion','Authenticity'];
+
+const faqs = [
+  { q: 'What do you do at Trezaloha Creative?', a: "Two things that grow from the same place: design and art. The design side is visual identity & branding, digital & print, UX/UI, and web. The art side is kapa (Hawaiian barkcloth), installation, and illustration. Both follow one throughline, the restoration of relationship to land, to culture, and to self through making." },
+  { q: 'Can you help with branding for my business?', a: "Yes, and I begin with relationship before solution. Before any logo or palette, I want to understand your story, your community, and the kuleana (responsibility) your brand carries. The identity grows from there, so it feels true rather than decorative." },
+  { q: 'What is your design process like?', a: "Four stages, Research & Strategy, Design & Development, Testing & Implementation, and Evaluation & Support, though the spirit matters more than the steps. I work slowly and in conversation, making with you rather than for you, so the work holds up long after it ships." },
+  { q: 'Do I need to know ʻŌiwi culture to work with you?', a: "Not at all. The work is built to connect with any audience while carrying an honest ʻŌiwi perspective. I bring the cultural grounding, you bring your story, and we meet in the middle with care." },
+  { q: 'How does ʻŌiwi knowledge actually show up in the work?', a: "As the foundation underneath the design, not decoration on top of it. Values like kuleana, reciprocity, and moʻolelo (story) shape the decisions from the first conversation through final delivery. It is a worldview, not a visual style." },
+  { q: 'You make art too, not just client work?', a: "I do. Alongside the studio work I keep a multidisciplinary art practice, kapa, installation, illustration, and research. The making feeds the design and the design feeds the making, same hands, same values." },
+  { q: 'How can I keep up with new work?', a: "Follow along on Instagram and LinkedIn, read the Field Notes, or sign up for the quarterly look book in the footer. And if you would like to work together, the contact page is the best place to begin." },
+];
+---
+
+<BaseLayout title="About" description="Learn about Tre Zamora and Trezaloha Creative, a Kanaka-owned design studio blending 'Ōiwi knowledge with modern design.">
+
+  <!-- ── Hero ── -->
+  <section class="about-hero">
+    <div class="container about-hero-head">
+      <p class="eyebrow" data-reveal style="--i:0">About · Trezaloha Creative</p>
+      <h1 class="about-hero-title" data-reveal="mask" style="--i:1"><span>Aloha! Welcome</span></h1>
+      <h1 class="about-hero-title about-hero-title-2" data-reveal="mask" style="--i:2"><span>to Trezaloha Creative</span></h1>
+    </div>
+    <div class="about-hero-media frame" data-reveal="clip" style="--i:3">
+      <Img src="about/hero.jpg" alt="Tre Zamora in a community design session" loading="eager" fetchpriority="high" />
+    </div>
+  </section>
+
+  <!-- ── Meet Tre Zamora (merged: intro + founder + portrait) ── -->
+  <section class="section about-founder">
+    <div class="container">
+      <p class="eyebrow" data-reveal>Designer &amp; Artist</p>
+      <h2 class="section-title about-founder-title" data-reveal="mask" style="--i:1"><span>Meet Tre Zamora</span></h2>
+
+      <div class="founder-grid">
+        <div class="founder-portrait frame" data-reveal="clip">
+          <Img src="about/team-tre.jpg" alt="Tre Zamora, Founder & Creative Director" loading="eager" />
+          <span class="founder-portrait-badge">Founder &amp; Creative Director</span>
+        </div>
+
+        <div class="founder-text" data-reveal style="--i:1">
+          <p class="about-bio">
+            Aloha! I'm Tre Zamora, a Kanaka ʻŌiwi designer and artist based in Hawaiʻi. For over a decade
+            I've woven ancestral knowledge into contemporary work, guided by one belief: design and art
+            should carry meaning, and meaning should carry culture.
+          </p>
+
+          <p class="about-bio">
+            I work in two practices. As a <strong>designer</strong>, I build brands, products, and stories
+            for clients. As an <strong>artist</strong>, I make by hand across several media: Hawaiian
+            <em>kapa</em>, woodworking, illustration, acrylic, and exhibition design. Each feeds the other.
+            The patience of handwork shapes how I design, and design sharpens what I make by hand. You'll
+            find both side by side on the <a href="/case-studies" class="link">Projects</a> page.
+          </p>
+
+          <div class="about-tabs">
+            <button class="about-tab active" data-tab="history">01. My History</button>
+            <button class="about-tab" data-tab="mission">02. My Mission</button>
+            <button class="about-tab" data-tab="vision">03. My Vision</button>
+          </div>
+          <div class="about-tab-content" id="history">
+            <p>
+              Trezaloha Creative grew from a lifelong pull toward digital art, storytelling, and the ʻŌiwi
+              traditions I was raised in. A personal practice became a studio, but the founding belief
+              hasn't changed: design carries meaning, and meaning carries culture.
+            </p>
+          </div>
+          <div class="about-tab-content hidden" id="mission">
+            <p>
+              To make work that is beautiful, useful, and culturally true. I partner closely with each
+              client to honor their story and serve their community, without asking the culture to
+              disappear to feel modern.
+            </p>
+          </div>
+          <div class="about-tab-content hidden" id="vision">
+            <p>
+              A creative industry where Indigenous perspectives are expected, not exceptional. Through every
+              project and mentorship, I work to normalize ʻŌiwi thinking and show the next generation of
+              Native creatives that their heritage is a strength.
+            </p>
+          </div>
+
+          <div class="founder-traits">
+            {["'Ōiwi Minded Thinker", "Strategic Leader", "Creative Problem-Solver", "Passionate Mentor"].map(t => (
+              <span class="trait-tag">{t}</span>
+            ))}
+          </div>
+
+          <div class="featured-in">
+            <p class="featured-in-label">Featured In:</p>
+            <div class="featured-logos">
+              {featuredLogos.map(f => (
+                <Img src={`brands/${f}`} alt="Featured / partner" class="featured-logo" loading="lazy" />
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Values Ticker ── -->
+  <section class="values-ticker-section">
+    <div class="marquee-wrapper">
+      <div class="marquee-track">
+        {Array(3).fill(values).flat().map(v => (
+          <span class="values-ticker-item">{v}</span>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Brands Marquee ── -->
+  <section class="section brands-section">
+    <div class="container">
+      <p class="eyebrow" data-reveal>Brands</p>
+      <h2 class="section-title" data-reveal="mask" style="--i:1"><span>Brands I Have Worked With</span></h2>
+    </div>
+    <div class="marquee-wrapper" style="margin-top: var(--space-md);">
+      <div class="marquee-track">
+        {Array(2).fill(null).map(() => (
+          <>
+            {brandLogos.map(logo => (
+              <Img src={`brands/${logo.file}`} alt={logo.name} class="brand-logo" loading="lazy" />
+            ))}
+          </>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Gallery ── -->
+  <section class="section gallery-section">
+    <div class="container">
+      <p class="eyebrow" data-reveal>Gallery</p>
+      <h2 class="section-title gallery-headline" data-reveal="mask" style="--i:1"><span>Studio Highlights</span></h2>
+      <p class="gallery-desc" data-reveal style="--i:2">
+        From client projects and creative collaborations to cultural events and community gatherings,
+        these images showcase dedication to culturally-conscious design and the meaningful connections built along the way.
+      </p>
+
+      <div class="gallery-wall">
+        {[1.2, -1.4, 1.8, -1, 1, -1.6].map((speed, i) => (
+          <figure class="frame gallery-piece" data-reveal="clip" data-speed={speed}>
+            <Img src={`about/gallery-${i + 1}.jpg`} alt="Studio highlight" loading="lazy" />
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FAQ ── -->
+  <section class="section faq-section">
+    <div class="container">
+      <p class="eyebrow" data-reveal>Frequently Asked Questions</p>
+      <h2 class="section-title faq-headline" data-reveal="mask" style="--i:1"><span>Got Questions? I've Got Answers!</span></h2>
+
+      <div class="faq-list">
+        {faqs.map((faq, i) => (
+          <div class="faq-item" id={`faq-${i}`}>
+            <button class="faq-question" aria-expanded="false">
+              {faq.q}
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>{faq.a}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  /* ── Hero — editorial: giant title over full-width image ── */
+  .about-hero {
+    padding-top: var(--space-md);
+  }
+  .about-hero-head { margin-bottom: var(--space-md); }
+  .about-hero-title {
+    font-family: var(--font-display);
+    font-size: var(--fs-display);   /* matches every other page hero */
+    line-height: 0.86;
+    letter-spacing: -0.01em;
+    color: var(--color-ink);
+  }
+  .about-hero-title-2 { color: var(--color-ink); }
+  .about-hero-media {
+    height: clamp(360px, 62vh, 720px);
+    width: 100%;
+  }
+  .about-hero-media img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* ── Meet Tre Zamora (merged intro + founder) ── */
+  .about-founder-title { margin: var(--space-xs) 0 var(--space-lg); font-size: var(--fs-3xl); }
+  .founder-grid {
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: clamp(2rem, 5vw, var(--space-lg));
+    align-items: start;
+  }
+  .founder-portrait {
+    aspect-ratio: 3/4;
+    position: sticky;
+    top: calc(var(--nav-height) + 2rem);
+  }
+  .founder-portrait img { width: 100%; height: 100%; object-fit: cover; }
+  .founder-portrait-badge {
+    position: absolute; left: 1rem; bottom: 1rem;
+    font-family: var(--font-body); font-size: var(--fs-2xs); font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase; color: #fff;
+    mix-blend-mode: difference;
+  }
+  .about-bio {
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-md);
+    line-height: 1.8;
+    font-size: var(--fs-md);
+  }
+  .about-tabs {
+    display: flex;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-sm);
+    flex-wrap: wrap;
+  }
+  .about-tab {
+    background: none;
+    border: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+    font-family: var(--font-body);
+    font-size: var(--fs-xs);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 0.55rem 1.1rem;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+  .about-tab.active,
+  .about-tab:hover {
+    border-color: var(--color-ink);
+    color: var(--color-ink);
+  }
+  .about-tab-content {
+    color: var(--color-text-muted);
+    margin-top: var(--space-sm);
+    line-height: 1.8;
+    max-width: 60ch;
+  }
+  .hidden { display: none; }
+
+  .founder-traits {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: var(--space-md) 0;
+  }
+  .trait-tag {
+    border: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+    font-family: var(--font-body);
+    font-size: var(--fs-xs);
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 0.45rem 1rem;
+    transition: var(--transition);
+  }
+  .trait-tag:hover { border-color: var(--color-ink); color: var(--color-ink); }
+  .featured-in-label {
+    font-size: var(--fs-xs);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin-bottom: 0.75rem;
+  }
+  .featured-logos {
+    display: flex;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .featured-logos :global(.featured-logo) {
+    height: 30px;
+    width: auto;
+    max-width: 110px;
+    object-fit: contain;
+    filter: brightness(0);
+    opacity: 0.5;
+    transition: opacity var(--transition);
+  }
+  .featured-logos :global(.featured-logo):hover { opacity: 1; }
+
+  /* ── Values Ticker ── */
+  .values-ticker-section {
+    padding: 1rem 0;
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+    overflow: hidden;
+  }
+  .values-ticker-item {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    padding: 0 var(--space-md);
+    white-space: nowrap;
+  }
+  .values-ticker-item:nth-child(odd) { color: var(--color-ink); }
+
+  /* ── Process — editorial numbered list ── */
+  .process-headline { margin: var(--space-xs) 0 var(--space-md); }
+  .process-list {
+    margin-top: var(--space-md);
+    border-top: 1px solid var(--color-ink);
+  }
+  .process-step {
+    padding: var(--space-md) 0;
+    border-bottom: 1px solid var(--color-border);
+    display: grid;
+    grid-template-columns: 0.8fr 1.5fr;
+    gap: var(--space-lg);
+    align-items: start;
+  }
+  .process-step:last-child { border-bottom: 1px solid var(--color-ink); }
+  .process-step-header {
+    display: flex;
+    gap: var(--space-sm);
+    align-items: baseline;
+  }
+  .process-num {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 6vw, 5rem);
+    color: var(--color-accent);
+    line-height: 0.8;
+    flex-shrink: 0;
+  }
+  .process-title {
+    font-family: var(--font-display);
+    font-size: var(--fs-xl);
+    color: var(--color-ink);
+    line-height: 0.95;
+  }
+  .process-desc {
+    font-size: var(--fs-md);
+    color: var(--color-text-muted);
+    line-height: 1.8;
+    max-width: 60ch;
+  }
+
+  /* ── Brands ── */
+  /* thin logo marquee — a compact band, not a full .section */
+  .brands-section { padding: var(--space-lg) 0; margin: 0; }
+  .brands-section .marquee-wrapper { margin-top: var(--space-md) !important; }
+
+  /* :global so the styles reach the <img> rendered inside the <Img> component
+     (these logos are not inside a .frame, so they need their own rules). */
+  .brands-section :global(.brand-logo) {
+    height: 48px;
+    width: auto;
+    max-width: 180px;
+    object-fit: contain;
+    flex-shrink: 0;
+    opacity: 0.55;
+    filter: brightness(0);   /* logo art is light → force black so it's visible on white */
+    transition: opacity var(--transition);
+  }
+  .brands-section :global(.brand-logo):hover { opacity: 1; }
+
+  /* ── Gallery ── */
+  .gallery-headline { margin: var(--space-xs) 0 var(--space-sm); }
+  .gallery-desc {
+    color: var(--color-text-muted);
+    max-width: 60ch;
+    margin-bottom: var(--space-lg);
+    font-size: var(--fs-md);
+  }
+  /* Staggered editorial gallery wall: mixed sizes, offset baselines, parallax drift */
+  .gallery-wall {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: clamp(1rem, 2.5vw, var(--space-lg));
+    align-items: start;
+    will-change: transform;
+  }
+  .gallery-piece {
+    position: relative;
+    width: 100%;
+    margin: 0;
+    overflow: hidden;
+  }
+  .gallery-piece img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  /* asymmetric layout: rows of 7+5, 5+7, 6+6, with offset top margins */
+  .gallery-piece:nth-child(1) { grid-column: span 7; aspect-ratio: 16 / 10; }
+  .gallery-piece:nth-child(2) { grid-column: span 5; aspect-ratio: 4 / 5; margin-top: 3.5rem; }
+  .gallery-piece:nth-child(3) { grid-column: span 5; aspect-ratio: 1 / 1; }
+  .gallery-piece:nth-child(4) { grid-column: span 7; aspect-ratio: 3 / 2; margin-top: 4rem; }
+  .gallery-piece:nth-child(5) { grid-column: span 6; aspect-ratio: 4 / 5; }
+  .gallery-piece:nth-child(6) { grid-column: span 6; aspect-ratio: 4 / 3; margin-top: 3rem; }
+
+  /* .faq-list — hairline accordion styling lives in global.css */
+
+  @media (max-width: 900px) {
+    .founder-grid { grid-template-columns: 1fr; }
+    .founder-portrait { position: static; aspect-ratio: 4/3; }
+    .process-step { grid-template-columns: 1fr; gap: var(--space-sm); }
+  }
+
+  /* Mobile: simple 2-up, no offsets (reset the asymmetric layout) */
+  @media (max-width: 760px) {
+    .gallery-wall { grid-template-columns: repeat(2, 1fr); gap: var(--space-sm); }
+    .gallery-piece:nth-child(n) { grid-column: span 1; aspect-ratio: 1 / 1; margin-top: 0; }
+  }
+</style>
+
+<script>
+  // Tabs
+  document.querySelectorAll('.about-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.about-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.about-tab-content').forEach(c => c.classList.add('hidden'));
+      tab.classList.add('active');
+      const target = tab.getAttribute('data-tab');
+      if (target) document.getElementById(target)?.classList.remove('hidden');
+    });
+  });
+
+  // FAQ
+  document.querySelectorAll('.faq-question').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const isOpen = item?.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+      if (!isOpen) item?.classList.add('open');
+      btn.setAttribute('aria-expanded', String(!isOpen));
+    });
+  });
+</script>

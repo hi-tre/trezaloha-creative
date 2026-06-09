@@ -1,0 +1,229 @@
+---
+// src/pages/index.astro — fixed viewport; ONLY the projects scroll, looping infinitely.
+// Wheel/trackpad/drag → eased offset of the projects row (the page never moves).
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Img from '../components/Img.astro';
+import Cover from '../components/Cover.astro';
+
+// Uniform base size — horizontal POSITION drives the size (small at left → big at right),
+// applied as a live scale in the scroll loop. Widths vary a little for rhythm.
+// `thumb` → real optimized image; `cover` → typographic placeholder (Cover.astro) for
+// pieces still awaiting photography.
+const work = [
+  { slug: 'piko-playground',     thumb: 'piko-hero.jpg',    title: 'Piko: A Creative Playground',     cat: 'Brand · Product',   w: 26, imgH: 66 },
+  { slug: 'isle-mobile-app',     thumb: 'isle-hero.jpg',    title: 'Island Sustainability Learning',  cat: 'UX/UI · Mobile',    w: 24, imgH: 66 },
+  { slug: 'hana-culture-stem',   thumb: 'hana-hero.jpg',    title: 'Hana: Culture & STEM',            cat: 'Campaign · Social', w: 28, imgH: 66 },
+  { slug: 'coral-collective-ai', thumb: 'coral-hero.jpg',   title: 'Coral Conservation × AI',         cat: 'Brand · Product',   w: 26, imgH: 66 },
+  { slug: 'ikebase-web-app',     thumb: 'ikebase-hero.jpg', title: "Kūʻē Petition ʻIkebase",          cat: 'Web · Archive',     w: 24, imgH: 66 },
+  { slug: 'somm-says',           thumb: 'somm-hero.jpg',    title: 'Uncorking Engagement: Somm Says', cat: 'UX/UI · Product',   w: 28, imgH: 66 },
+  { slug: 'eras-of-kapa',        thumb: 'eras-of-kapa-hero.jpg', title: 'Eras of Kapa',               cat: 'Hawaiian Kapa · Research',    w: 26, imgH: 66 },
+  { slug: 'kii-o-ka-hana',       thumb: 'kiiokahana-digital.jpeg', title: 'Kiʻi o ka Hana',           cat: 'Installation · Acrylic',      w: 24, imgH: 66 },
+  { slug: 'kahua-card-deck',     thumb: 'kahua-hero.png',   title: 'Kahua: ʻŌiwi Card Deck',          cat: 'Critical Design · Framework', w: 28, imgH: 66 },
+  { slug: 'wauke-webapp',        thumb: 'wauke-hero.png',   title: 'Wauke: A Living Map',             cat: 'UX · Ecological Design',      w: 26, imgH: 66 },
+];
+// two identical sets → seamless infinite loop
+const copies = [0, 1];
+---
+
+<BaseLayout title="Home" scroll="horizontal" footer={false}>
+
+  <section class="proj-viewport">
+    <div class="proj-track" id="proj-track">
+      {copies.map((copy) => (
+        <div class="proj-set" aria-hidden={copy === 1 ? 'true' : undefined}>
+          {work.map((t, i) => (
+            <a
+              href={`/case-studies/${t.slug}`}
+              class="tile"
+              style={`width:${t.w}vw`}
+              tabindex={copy === 1 ? -1 : undefined}
+            >
+              <div class="tile-img frame" style={`height:${t.imgH}vh`}>
+                {t.thumb
+                  ? <Img src={`case-studies/${t.thumb}`} alt={t.title} loading={copy === 0 && i < 3 ? 'eager' : 'lazy'} />
+                  : <Cover tag={t.cover} variant="hero" />}
+                <span class="tile-index">{String(i + 1).padStart(2, '0')}</span>
+                <span class="tile-play" aria-hidden="true">▶</span>
+                <div class="tile-cap">
+                  <span class="tile-cat">{t.cat}</span>
+                  <span class="tile-title">{t.title}</span>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- fixed page furniture (does NOT move on scroll) -->
+  <header class="proj-head">
+    <p class="eyebrow">ʻŌiwi Designer &amp; Artist · Hawaiʻi</p>
+    <h1 class="proj-title">Pixel&nbsp;Perfect<br />Storytelling</h1>
+    <p class="proj-tagline">Designer and multidisciplinary artist making culture-rooted brands, products, and art through an ʻōiwi lens.</p>
+  </header>
+  <div class="h-hint" aria-hidden="true">Scroll <span>→</span></div>
+
+</BaseLayout>
+
+<style>
+  .proj-viewport {
+    --pgap: 0px;                /* tiles touch edge-to-edge */
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+  }
+  .proj-track {
+    display: flex;
+    align-items: flex-end;
+    gap: var(--pgap);
+    height: 100vh;
+    width: max-content;
+    padding-bottom: 0;       /* projects flush to the bottom of the screen */
+    will-change: transform;
+  }
+  .proj-set { display: flex; align-items: flex-end; gap: var(--pgap); flex: 0 0 auto; }
+
+  /* Tiles — first one touches the left edge; bottom-aligned, varying heights */
+  .tile { flex: 0 0 auto; color: inherit; min-width: 160px; }
+  .tile-img { width: 100%; height: 100%; border-radius: 0; will-change: height; }
+  .tile-img img { width: 100%; height: 100%; object-fit: cover; }
+  .tile-index {
+    position: absolute; top: 0.8rem; left: 0.8rem;
+    font-family: var(--font-display); font-size: 0.95rem; color: #fff;
+    mix-blend-mode: difference; letter-spacing: 0.05em;
+  }
+  .tile-play {
+    position: absolute; left: 50%; top: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    width: 64px; height: 64px; border-radius: 50%;
+    background: var(--color-accent); color: #0a0a0a;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; padding-left: 4px; pointer-events: none;
+    opacity: 0; transition: opacity var(--transition), transform var(--transition);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.25);
+  }
+  .tile:hover .tile-play { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  @media (hover: none) { .tile-play { opacity: 0.92; transform: translate(-50%, -50%) scale(1); } }
+
+  /* Project info — revealed on hover, overlaid on the image bottom */
+  .tile-cap {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    display: flex; flex-direction: column; gap: 0.3rem;
+    padding: 2.5rem 1.1rem 1.1rem;
+    background: linear-gradient(to top, rgba(0,0,0,0.82), rgba(0,0,0,0.25) 55%, transparent);
+    opacity: 0; transform: translateY(10px);
+    transition: opacity var(--transition), transform var(--transition);
+    pointer-events: none;
+  }
+  .tile:hover .tile-cap { opacity: 1; transform: none; }
+  .tile-cat { font-size: var(--fs-2xs); font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.8); }
+  .tile-title { font-family: var(--font-display); font-size: 1.15rem; text-transform: uppercase; line-height: 1.02; color: #fff; }
+  @media (hover: none) { .tile-cap { opacity: 1; transform: none; } }
+
+  /* Fixed header — title + tagline, top-left (does not scroll) */
+  .proj-head {
+    position: fixed; top: calc(var(--nav-height) + 4vh); left: var(--gutter); z-index: 50;
+    max-width: min(42vw, 580px); pointer-events: none;
+  }
+  .proj-head .eyebrow { margin-bottom: var(--space-sm); }
+  .proj-title {
+    font-family: var(--font-display); font-size: clamp(2rem, 4.5vw, 4rem);
+    line-height: 0.92; text-transform: uppercase; color: var(--color-ink);
+  }
+  .proj-tagline {
+    margin-top: var(--space-sm); max-width: 34ch;
+    font-size: var(--fs-sm); line-height: 1.5; color: var(--color-text-muted);
+  }
+
+  /* Scroll hint — above the projects (top-right), so the projects sit flush to the bottom */
+  .h-hint {
+    position: fixed; right: var(--gutter); top: calc(var(--nav-height) + 6vh); z-index: 50;
+    font-size: var(--fs-2xs); font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--color-text-muted); pointer-events: none;
+    display: inline-flex; align-items: center; gap: 0.5rem;
+  }
+  .h-hint span { animation: hintNudge 1.6s ease-in-out infinite; }
+  @keyframes hintNudge { 0%,100% { transform: translateX(0); } 50% { transform: translateX(4px); } }
+
+  /* ── Mobile / reduced-motion: vertical stack (single set) ── */
+  @media (max-width: 760px) {
+    .proj-viewport { height: auto; overflow: visible; }
+    .proj-track { flex-direction: column; align-items: stretch; width: 100%; height: auto; transform: none !important; padding: var(--space-lg) var(--gutter); gap: var(--space-md); }
+    .proj-set { flex-direction: column; align-items: stretch; width: 100%; gap: var(--space-md); }
+    .proj-set[aria-hidden="true"] { display: none; }
+    .tile { width: 100% !important; }
+    .tile-img { height: 58vh !important; }
+    .h-hint { display: none; }
+    .proj-head { position: static; max-width: 100%; padding: var(--nav-height) var(--gutter) 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .proj-viewport { height: auto; overflow: visible; }
+    .proj-track { flex-direction: column; align-items: stretch; width: 100%; height: auto; transform: none !important; padding: var(--space-lg) var(--gutter); gap: var(--space-md); }
+    .proj-set { flex-direction: column; align-items: stretch; width: 100%; gap: var(--space-md); }
+    .proj-set[aria-hidden="true"] { display: none; }
+    .tile { width: 100% !important; }
+    .tile-img { height: 58vh !important; }
+    .h-hint { display: none; }
+    .proj-head { position: static; max-width: 100%; padding: var(--nav-height) var(--gutter) 0; }
+  }
+</style>
+
+<script>
+  // Infinite looping projects row. The PAGE stays fixed; only #proj-track moves.
+  const track = document.getElementById('proj-track') as HTMLElement | null;
+  const active =
+    document.documentElement.dataset.scroll === 'horizontal' &&
+    window.matchMedia('(min-width: 761px)').matches &&
+    !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (track && active) {
+    const sets = track.querySelectorAll<HTMLElement>('.proj-set');
+    let W = 0;                                   // width of one set (loop period)
+    const measure = () => { W = sets[1]?.offsetLeft || track.scrollWidth / 2; };
+    measure();
+    window.addEventListener('load', measure);
+    window.addEventListener('resize', measure);
+
+    let target = 0, current = 0;
+    const wrap = (v: number) => (W ? ((v % W) + W) % W : 0);
+
+    window.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      const d = Math.abs(e.deltaY) > Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+      target += d;                               // no clamp → infinite both ways
+    }, { passive: false });
+
+    let dragX = 0, startTarget = 0, dragging = false;
+    window.addEventListener('pointerdown', (e) => { dragging = true; dragX = e.clientX; startTarget = target; });
+    window.addEventListener('pointermove', (e) => { if (dragging) target = startTarget + (dragX - e.clientX); });
+    window.addEventListener('pointerup',   () => { dragging = false; });
+
+    // Position-based size: SHORT at the left edge → TALL at the right (widths stay
+    // fixed so tiles always touch). Driven by image height (object-fit cover = no distortion).
+    const tiles = Array.from(track.querySelectorAll<HTMLElement>('.tile'));
+    const imgs = tiles.map((t) => t.querySelector<HTMLElement>('.tile-img'));
+    const BASE_VH = 70;     // tallest (right side)
+    const MIN_RATIO = 0.48; // shortest (left edge)
+    const sizeTiles = () => {
+      const vw = window.innerWidth;
+      tiles.forEach((tile, idx) => {
+        const cx = tile.getBoundingClientRect().left + tile.offsetWidth / 2;
+        let t = cx / vw; t = t < 0 ? 0 : t > 1 ? 1 : t;
+        const ratio = MIN_RATIO + (1 - MIN_RATIO) * t;
+        const img = imgs[idx];
+        if (img) img.style.height = (ratio * BASE_VH).toFixed(1) + 'vh';
+      });
+    };
+
+    let last = NaN;
+    const raf = () => {
+      current += (target - current) * 0.085;     // easing — lower = smoother/slower
+      const w = wrap(current);
+      track.style.transform = `translate3d(${(-w).toFixed(2)}px,0,0)`;
+      if (isNaN(last) || Math.abs(w - last) > 0.3) { sizeTiles(); last = w; }  // skip reflow when idle
+      requestAnimationFrame(raf);
+    };
+    raf();
+  }
+</script>

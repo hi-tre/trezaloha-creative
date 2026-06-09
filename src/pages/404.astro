@@ -1,0 +1,50 @@
+---
+// src/pages/404.astro — branded not-found page in the editorial style.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { menuLinks } from '../data/site.mjs';
+---
+
+<BaseLayout title="Page Not Found" description="The page you were looking for could not be found.">
+  <section class="nf">
+    <div class="container nf-inner">
+      <p class="eyebrow">Error 404</p>
+      <h1 class="nf-title">Lost at Sea</h1>
+      <p class="nf-text">
+        This page drifted off the map. Let's get you back to shore — try one of these instead:
+      </p>
+      <nav class="nf-links" aria-label="Helpful links">
+        <a href="/" class="link">Home →</a>
+        {menuLinks.map((l) => (
+          <a href={l.href} class="link">{l.label} →</a>
+        ))}
+      </nav>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .nf {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    padding: var(--space-xl) 0;
+  }
+  .nf-inner { max-width: 720px; }
+  .nf-title {
+    font-family: var(--font-display);
+    font-size: var(--fs-3xl);
+    line-height: 0.95;
+    margin: var(--space-sm) 0 var(--space-md);
+  }
+  .nf-text {
+    font-size: var(--fs-md);
+    color: var(--color-text-muted, inherit);
+    max-width: 48ch;
+    margin-bottom: var(--space-lg);
+  }
+  .nf-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm) var(--space-md);
+  }
+</style>

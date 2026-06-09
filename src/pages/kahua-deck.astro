@@ -1,0 +1,275 @@
+---
+// src/pages/kahua-deck.astro, editorial redesign (white/black, Anton, gold accent)
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const principles = [
+  { label: 'Story is method',          body: 'Moʻolelo carries theory, practice, and memory across generations.' },
+  { label: 'Knowledge is cyclical',    body: 'Creation is never linear; it spirals through reflection, iteration, and renewal.' },
+  { label: 'Context is everything',    body: 'There is no such thing as a neutral process; every act of design is positional.' },
+  { label: 'Accountability is creative', body: 'Good design is rooted in pilina, kuleana, and the long view.' },
+  { label: 'Surprise is part of learning', body: 'Reflection and play are essential to shift rigid ways of seeing.' },
+  { label: 'Making is remembering',    body: 'Hana noʻeau connects us to lineages of skilled, purposeful, and beautiful creation.' },
+];
+
+const cardTypes = [
+  { count: 60, label: 'Practice Cards' },
+  { count: 2,  label: 'Grounding Cards' },
+  { count: 7,  label: 'Portals Cards' },
+  { count: 7,  label: 'Navigation Cards' },
+  { count: 7,  label: 'Huli Cards' },
+  { count: 7,  label: 'Holo Cards' },
+];
+
+const workflows = [
+  { num: '01', title: 'Solo Reflection', body: 'Start your day or design session by pulling a single card. Sit with its value, metaphor, or prompt. Use it as a journaling or sketching tool to guide clarity and focus.' },
+  { num: '02', title: 'Project Phase Mapping', body: 'Working on a specific project? Map out each design phase (Understand, Research, etc.) and pull 1–2 cards from each category to explore that phase with cultural integrity.' },
+  { num: '03', title: 'Group Facilitation', body: 'Use the deck in workshops or classrooms. Let each participant pull a card and explain how it speaks to their role, challenge, or vision. Use Nā Huli and Huli Paths for team recalibration.' },
+  { num: '04', title: 'Creative Breakthrough', body: 'Feeling blocked or unsure? Try the "Reframe" Huli Path: ask a question, pull 2–3 cards at random, and read them as if they\'re responses from your kūpuna or from ʻāina.' },
+];
+
+const faqs = [
+  { q: 'What is the ʻŌiwi Design Thinking Deck?', a: 'The ʻŌiwi Design Thinking Deck is an 80-card system grounded in Indigenous Hawaiian values and epistemology. It offers an alternative to Western design frameworks, one that centers storytelling, relationship, and regenerative practice.' },
+  { q: 'Who is this deck for?', a: 'The deck is for students, educators, solo designers, community organizers, and anyone seeking a more intentional and culturally grounded creative process. No prior design experience is required.' },
+  { q: 'Do I need to be Hawaiian or Indigenous to use this deck?', a: 'Not at all. While the deck is rooted in ʻŌiwi worldviews, it is designed as a tool for anyone who resonates with its values. Approaching it with respect, curiosity, and openness is what matters most.' },
+  { q: 'How do I get started with the deck?', a: 'Start simple, pull one card and sit with it. Read the prompt, value, or provocation it carries. You can journal, sketch, or simply reflect. The deck meets you wherever you are.' },
+  { q: 'What are Nā Huli cards and how do I use them?', a: "Nā Huli cards are recalibration tools, designed to shift perspective and reorient your thinking when you're stuck, misaligned, or need a new direction. They work especially well in group settings." },
+  { q: 'Can I use this deck in my classroom or workshop?', a: "Yes. The deck was developed with educational and facilitation contexts in mind. If you're interested in bringing it into your classroom, organization, or creative space, reach out via the contact form." },
+  { q: 'How can I provide feedback or get involved?', a: "Reach out via email, Tre would love to hear from you. Whether you're a collaborator, educator, researcher, or community member, your feedback helps this work grow." },
+];
+---
+
+<BaseLayout title="Kahua: The ʻŌiwi Design Thinking Deck" description="A place-based, relational, and regenerative design deck grounded in six Hawaiian values. Created by Tre Zamora.">
+
+  <!-- ══ Hero ══ -->
+  <section class="kd-hero">
+    <div class="container">
+      <p class="eyebrow" data-reveal>Kahua Deck · ʻŌiwi Design Thinking</p>
+      <h1 class="kd-title" data-reveal="mask"><span>Kahua</span></h1>
+      <p class="kd-deckname" data-reveal style="--i:1">The ʻŌiwi Design Thinking Deck</p>
+      <div class="kd-hero-grid">
+        <div class="kd-hero-spacer"></div>
+        <p class="kd-tagline" data-reveal style="--i:1">
+          What if design wasn't about innovation, but about reconnection? Backed by research, this deck is an
+          invitation: to slow down, to reflect, to design with integrity. To move beyond extractive practices and
+          toward regenerative ones. To remember that all design is cultural, and that reclaiming our own ways of
+          knowing is both an act of resistance and an act of love.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ The Research ══ -->
+  <section class="section">
+    <div class="container kd-read">
+      <p class="eyebrow" data-reveal>The Research</p>
+      <h2 class="section-title kd-h2" data-reveal="mask"><span>Design Isn't Universal, It's Cultural</span></h2>
+      <p class="kd-body" data-reveal style="--i:1">This project began as a challenge: what would it mean to redesign the design process itself? Rooted in academic inquiry and cultural practice, the ʻŌiwi Design Thinking Deck emerged from a multi-year capstone project exploring the intersections of Indigenous Hawaiian epistemology and Western design thinking.</p>
+      <p class="kd-body" data-reveal style="--i:1">The research draws on sources from Hawaiian studies, design theory, and Indigenous knowledge systems, critically examining how mainstream design often reinforces values like speed, mastery, and individualism. In contrast, this framework honors Hawaiian ways of knowing, like kilo (observation), moʻolelo (storytelling), and hana noʻeau (skilled practice), as valid and powerful tools for creative work.</p>
+      <p class="kd-body" data-reveal style="--i:1">More than a critique, this project offers an alternative: a place-based, relational, and regenerative design model grounded in six Hawaiian values. The deck is both a response to extractive creative practices and a contribution to the broader movement of Indigenous innovation.</p>
+    </div>
+  </section>
+
+  <!-- ══ The Process, full black ══ -->
+  <section class="section kd-dark">
+    <div class="container">
+      <p class="eyebrow" data-reveal>The Process</p>
+      <h2 class="section-title kd-h2" data-reveal="mask"><span>The Thinking Behind the Cards</span></h2>
+      <blockquote class="kd-quote" data-reveal style="--i:1">"Design grounded in ancestry, relationship, and rhythm."</blockquote>
+      <p class="kd-body kd-body--light" data-reveal style="--i:1">Each card was shaped by six guiding principles that challenge Western design norms. These principles helped reframe not only <em>what</em> gets designed, but how and why we design in the first place.</p>
+      <div class="kd-principles">
+        {principles.map((p, i) => (
+          <div class="kd-principle" data-reveal style={`--i:${i % 2}`}>
+            <p class="kd-principle-label">{p.label}</p>
+            <p class="kd-principle-body">{p.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ The Deck ══ -->
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow" data-reveal>The Deck</p>
+      <h2 class="section-title kd-h2" data-reveal="mask"><span>An 80-Card System for Creative Transformation</span></h2>
+      <p class="kd-body kd-read-inline" data-reveal style="--i:1">The deck supports reflection, creativity, and design rooted in Indigenous values. Rather than following a rigid process, it invites you to move fluidly through themes, prompts, and provocations inspired by ʻŌiwi worldviews.</p>
+      <p class="kd-inside" data-reveal>What's inside</p>
+      <div class="kd-cards-grid">
+        {cardTypes.map((ct, i) => (
+          <div class="kd-card-type" data-reveal style={`--i:${i % 3}`}>
+            <span class="kd-card-count">{ct.count}</span>
+            <span class="kd-card-label">{ct.label}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ The Workflows ══ -->
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow" data-reveal>How to Use the Deck</p>
+      <h2 class="section-title kd-h2" data-reveal="mask"><span>Four Ways In</span></h2>
+      <p class="kd-body kd-read-inline" data-reveal style="--i:1">There's no one "right" way to use this deck. Whether you're a student, solo designer, educator, or community leader, it adapts to your intentions.</p>
+      <div class="kd-flow-list">
+        {workflows.map((w, i) => (
+          <div class="kd-flow" data-reveal style={`--i:${i % 2}`}>
+            <span class="kd-flow-num">{w.num}</span>
+            <div class="kd-flow-text">
+              <h3 class="kd-flow-title">{w.title}</h3>
+              <p class="kd-flow-body">{w.body}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ The Creator ══ -->
+  <section class="section">
+    <div class="container kd-read">
+      <p class="eyebrow" data-reveal>The Creator</p>
+      <h2 class="section-title kd-h2" data-reveal="mask"><span>About the Designer</span></h2>
+      <p class="kd-body" data-reveal style="--i:1">This deck was created by Tre Zamora, a Native Hawaiian designer, researcher, and cultural strategist committed to reclaiming space for Indigenous knowledge in design.</p>
+      <p class="kd-body" data-reveal style="--i:1">As a student, storyteller, and kapa practitioner, Tre has worked at the intersections of graphic design, multimedia storytelling, curriculum development, and ʻŌiwi design thinking. This project is part of his Creative Media Capstone at UH West Oʻahu, but lives beyond the classroom as a tool for community use, cultural restoration, and creative resistance.</p>
+    </div>
+  </section>
+
+  <!-- ══ The Feedback, full black ══ -->
+  <section class="section kd-dark">
+    <div class="container">
+      <p class="eyebrow" data-reveal>The Feedback</p>
+      <h2 class="section-title kd-h2" data-reveal="mask"><span>Voices from the Deck</span></h2>
+      <p class="kd-body kd-body--light" data-reveal style="--i:1">Real reflections from early users, educators, and community collaborators.</p>
+      <div class="kd-testimonials">
+        {[0, 1, 2].map(i => (
+          <div class="kd-testimonial" data-reveal style={`--i:${i % 3}`}>
+            <p class="kd-testimonial-text">"Add testimonial here."</p>
+            <p class="kd-testimonial-attr">Name, Role</p>
+          </div>
+        ))}
+      </div>
+      <div class="kd-cta" data-reveal>
+        <h3 class="kd-cta-title">Want to learn more or share feedback?</h3>
+        <p class="kd-cta-body kd-body--light">Interested in bringing the ʻŌiwi Design Thinking Deck into your classroom, organization, or creative space? Have feedback, questions, or want to collaborate on expanding this work?</p>
+        <a href="/contact-us" class="btn btn-primary">Reach Out →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ FAQ ══ -->
+  <section class="section faq-section">
+    <div class="container">
+      <p class="eyebrow" data-reveal>FAQ</p>
+      <h2 class="section-title kd-h2" data-reveal="mask"><span>Top of Mind Questions</span></h2>
+      <div class="faq-list">
+        {faqs.map((item, i) => (
+          <div class="faq-item" id={`faq-${i}`}>
+            <button class="faq-question" aria-expanded="false">{item.q}<span class="faq-icon">+</span></button>
+            <div class="faq-answer"><p>{item.a}</p></div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  /* ── Hero ── */
+  .kd-hero { padding: var(--space-lg) 0 var(--space-md); }
+  .kd-title { font-family: var(--font-display); font-size: var(--fs-display); line-height: 0.84; color: var(--color-ink); }
+  .kd-deckname {
+    margin-top: var(--space-sm);
+    font-size: var(--fs-sm); font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--color-accent-2);
+  }
+  .kd-hero-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-lg);
+    margin-top: var(--space-lg); border-top: 1px solid var(--color-border); padding-top: var(--space-lg);
+  }
+  .kd-tagline { font-size: var(--fs-lg); line-height: 1.6; color: var(--color-text-muted); }
+
+  /* ── Shared ── */
+  .kd-read { max-width: 760px; }
+  .kd-h2 { font-size: var(--fs-2xl); margin: var(--space-xs) 0 var(--space-md); }
+  .kd-body { font-size: var(--fs-md); line-height: 1.85; color: var(--color-text-muted); max-width: 70ch; }
+  .kd-body + .kd-body { margin-top: 1.2rem; }
+  .kd-read-inline { margin-bottom: var(--space-lg); }
+
+  /* ── Dark sections ── */
+  .kd-dark { background: var(--color-ink); color: #fff; }
+  .kd-dark .section-title, .kd-dark .eyebrow { color: #fff; }
+  .kd-dark .eyebrow { color: rgba(255,255,255,0.65); }
+  .kd-body--light { color: rgba(255,255,255,0.78); }
+  .kd-quote {
+    font-family: var(--font-display); font-size: var(--fs-xl); line-height: 1.1; text-transform: uppercase;
+    color: var(--color-accent); border-left: 4px solid var(--color-accent);
+    padding-left: var(--space-md); margin-bottom: var(--space-md);
+  }
+
+  /* ── Principles ── */
+  .kd-principles { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-sm); margin-top: var(--space-lg); }
+  .kd-principle { border: 1px solid rgba(255,255,255,0.16); padding: var(--space-md); }
+  .kd-principle-label {
+    font-family: var(--font-display); font-size: var(--fs-lg); line-height: 1.05; text-transform: uppercase;
+    color: var(--color-accent); margin-bottom: 0.6rem;
+  }
+  .kd-principle-body { font-size: var(--fs-sm); line-height: 1.65; color: rgba(255,255,255,0.78); }
+
+  /* ── Card types (stat grid) ── */
+  .kd-inside {
+    margin-top: var(--space-md);
+    font-size: var(--fs-2xs); font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--color-text-muted); margin-bottom: var(--space-sm);
+  }
+  .kd-cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--color-ink); border-left: 1px solid var(--color-border); }
+  .kd-card-type {
+    padding: var(--space-md); display: flex; flex-direction: column; gap: 0.4rem;
+    border-right: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border);
+  }
+  .kd-card-count { font-family: var(--font-display); font-size: clamp(2.5rem, 5vw, 4.5rem); line-height: 0.9; color: var(--color-accent); }
+  .kd-card-label { font-size: var(--fs-xs); letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-text-muted); }
+
+  /* ── Workflows (numbered list) ── */
+  .kd-flow-list { border-top: 1px solid var(--color-ink); }
+  .kd-flow {
+    display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--space-md);
+    padding: var(--space-md) 0; border-bottom: 1px solid var(--color-border); align-items: baseline;
+  }
+  .kd-flow-num { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3.25rem); color: var(--color-accent); line-height: 0.9; }
+  .kd-flow-title { font-family: var(--font-display); font-size: var(--fs-xl); color: var(--color-ink); margin-bottom: 0.5rem; }
+  .kd-flow-body { font-size: var(--fs-base); line-height: 1.75; color: var(--color-text-muted); max-width: 70ch; }
+
+  /* ── Testimonials ── */
+  .kd-testimonials { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-sm); margin-top: var(--space-lg); }
+  .kd-testimonial { border: 1px solid rgba(255,255,255,0.16); padding: var(--space-md); }
+  .kd-testimonial-text { font-size: var(--fs-md); line-height: 1.6; color: rgba(255,255,255,0.85); margin-bottom: var(--space-sm); }
+  .kd-testimonial-attr { font-size: var(--fs-xs); font-weight: 600; letter-spacing: 0.06em; color: var(--color-accent); }
+
+  /* ── CTA ── */
+  .kd-cta { margin-top: var(--space-xl); border-top: 1px solid rgba(255,255,255,0.16); padding-top: var(--space-lg); max-width: 620px; }
+  .kd-cta-title { font-family: var(--font-display); font-size: var(--fs-2xl); color: #fff; margin-bottom: var(--space-sm); }
+  .kd-cta-body { margin-bottom: var(--space-md); line-height: 1.7; }
+
+  /* ── Responsive ── */
+  @media (max-width: 860px) {
+    .kd-hero-grid { grid-template-columns: 1fr; gap: var(--space-md); }
+    .kd-hero-spacer { display: none; }
+    .kd-principles, .kd-testimonials { grid-template-columns: 1fr; }
+    .kd-cards-grid { grid-template-columns: repeat(2, 1fr); }
+    .kd-flow { grid-template-columns: 1fr; gap: var(--space-xs); }
+  }
+</style>
+
+<script>
+  document.querySelectorAll('.faq-question').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const isOpen = item?.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+      if (!isOpen) item?.classList.add('open');
+      btn.setAttribute('aria-expanded', String(!isOpen));
+    });
+  });
+</script>

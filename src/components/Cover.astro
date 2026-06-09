@@ -1,0 +1,42 @@
+---
+// Typographic placeholder cover for posts without a real image.
+// Big Anton tag word on a solid, tag-tinted color block.
+// variant: 'card' (listing tile) | 'hero' (article hero) | 'related' (small)
+const { tag = 'Field Note', variant = 'card' } = Astro.props;
+const cls = String(tag).toLowerCase().replace(/[^a-z]/g, '');
+---
+<div class={`cover cover--${cls} cover--${variant}`} aria-hidden="true">
+  <span class="cover-word">{tag}</span>
+</div>
+
+<style>
+  .cover {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    display: flex; align-items: flex-start;
+    padding: clamp(0.9rem, 2.4vw, 1.8rem);
+    overflow: hidden;
+  }
+  .cover-word {
+    font-family: var(--font-display);
+    font-size: clamp(2.4rem, 8vw, 6.5rem);
+    line-height: 0.8;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    margin-top: -0.06em;
+  }
+
+  /* tag palettes */
+  .cover--culture  { background: #0a0a0a; color: #ffd45c; }
+  .cover--art      { background: #f4f2ed; color: #0a0a0a; }
+  .cover--design   { background: #28608a; color: #f4f2ed; }
+  .cover--practice { background: #ffd45c; color: #0a0a0a; }
+  .cover--fieldnote { background: var(--color-surface); color: var(--color-ink); }
+
+  /* hero: big and centered */
+  .cover--hero { align-items: center; justify-content: center; }
+  .cover--hero .cover-word { font-size: clamp(3rem, 13vw, 9rem); }
+
+  /* related card: smaller word */
+  .cover--related .cover-word { font-size: clamp(1.5rem, 5vw, 2.4rem); }
+</style>

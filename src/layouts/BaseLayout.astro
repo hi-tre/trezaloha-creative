@@ -1,0 +1,221 @@
+---
+// BaseLayout.astro
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { socials, contact } from '../data/site.mjs';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+  scroll?: 'vertical' | 'horizontal';
+  footer?: boolean;
+}
+
+const {
+  title,
+  description = "Trezaloha Creative is a Kanaka-owned design studio blending 'Ōiwi knowledge with modern design practices.",
+  ogImage = '/images/og-image.jpg',
+  scroll = 'vertical',
+  footer = true,
+} = Astro.props;
+
+const fullTitle = title === 'Home'
+  ? 'Trezaloha Creative — Blending Culture & Design'
+  : `${title} — Trezaloha Creative`;
+
+// Absolute URLs for canonical / Open Graph (Astro.site is set in astro.config.mjs).
+const canonicalURL = new URL(Astro.url.pathname, Astro.site).href;
+const ogImageURL = new URL(ogImage, Astro.site).href;
+
+// Site-wide structured data so search engines understand the studio + its socials.
+const orgSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Trezaloha Creative',
+  url: Astro.site?.href,
+  logo: new URL('/images/trezaloha-wordmark.png', Astro.site).href,
+  description,
+  email: contact.email,
+  sameAs: socials.map((s) => s.href),
+};
+---
+
+<!DOCTYPE html>
+<html lang="en" data-scroll={scroll}>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{fullTitle}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonicalURL} />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content={fullTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={ogImageURL} />
+  <meta property="og:url" content={canonicalURL} />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Trezaloha Creative" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={fullTitle} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={ogImageURL} />
+
+  <!-- Structured data -->
+  <script type="application/ld+json" set:html={JSON.stringify(orgSchema)} />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+  <!-- Scroll-reveal: arm the hidden state synchronously so there's no flash.
+       Only when motion is allowed AND IntersectionObserver exists (else everything
+       stays visible and the observer below is a no-op). -->
+  <script is:inline>
+    try {
+      var __rm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!__rm) document.documentElement.classList.add('pt-ready');   // page-transition wipe
+      if ('IntersectionObserver' in window && !__rm) {
+        document.documentElement.classList.add('reveal-ready');
+      }
+    } catch (e) { /* leave content visible on any failure */ }
+  </script>
+
+  <!-- Google Fonts — preconnect, then load the stylesheet non-render-blocking -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;500;600;700&display=swap"
+  />
+</head>
+<body>
+  <Nav />
+  <main style="padding-top: var(--nav-height);">
+    <slot />
+  </main>
+  {footer && <Footer />}
+
+  <!-- ── Page-transition wipe overlay (full-reload, gated by pt-ready) ── -->
+  <div class="page-transition" aria-hidden="true">
+    <img src="/images/trezaloha-wordmark.png" alt="" />
+  </div>
+
+  <style is:global>
+    .page-transition {
+      position: fixed; inset: 0; z-index: 9999;
+      background: var(--color-ink, #0a0a0a);
+      display: none; align-items: center; justify-content: center;
+      transform: translateY(-105%); pointer-events: none; will-change: transform;
+    }
+    html.pt-ready .page-transition {
+      display: flex; transform: translateY(0);
+      animation: ptReveal 0.65s cubic-bezier(0.76, 0, 0.24, 1) forwards;  /* CSS failsafe reveal */
+    }
+    .page-transition img { height: 34px; width: auto; filter: brightness(0) invert(1); opacity: 0.92; }
+    @keyframes ptReveal { from { transform: translateY(0); } to { transform: translateY(-105%); } }
+    @media (prefers-reduced-motion: reduce) { .page-transition { display: none !important; } }
+  </style>
+
+  <script>
+    (function () {
+      const html = document.documentElement;
+      if (!html.classList.contains('pt-ready')) return;
+      const panel = document.querySelector('.page-transition') as HTMLElement | null;
+      if (!panel) return;
+
+      document.addEventListener('click', (e) => {
+        const a = (e.target as HTMLElement)?.closest('a');
+        if (!a) return;
+        const href = a.getAttribute('href');
+        if (!href) return;
+        if (a.target === '_blank' || a.hasAttribute('download')) return;
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+        if (href[0] === '#' || href.startsWith('mailto:') || href.startsWith('tel:')) return;
+        let url: URL;
+        try { url = new URL(href, location.href); } catch { return; }
+        if (url.origin !== location.origin) return;
+        if (url.pathname === location.pathname) return;   // same page → let default/anchor handle it
+
+        e.preventDefault();
+        let done = false;
+        const go = () => { if (done) return; done = true; location.href = url.href; };
+
+        panel.style.animation = 'none';
+        panel.style.transition = 'none';
+        panel.style.transform = 'translateY(105%)';   // reset below, off-screen (invisible)
+        void panel.offsetWidth;                        // reflow
+        panel.style.transition = 'transform 0.5s cubic-bezier(0.76, 0, 0.24, 1)';
+        panel.style.transform = 'translateY(0)';       // wipe up to cover
+        panel.addEventListener('transitionend', go, { once: true });
+        setTimeout(go, 600);                           // fallback
+      });
+    })();
+  </script>
+
+  <!-- Reveal: rect-based (robust). Adds .is-in when an element scrolls into view.
+       Recomputes on scroll/resize/load so image-height-dependent boxes can't get
+       stuck hidden, with a final failsafe that reveals anything left over. -->
+  <script>
+    if (document.documentElement.classList.contains('reveal-ready')) {
+      let els = Array.from(document.querySelectorAll('[data-reveal]'));
+      const reveal = () => {
+        const vh = window.innerHeight || document.documentElement.clientHeight;
+        els = els.filter((el) => {
+          const r = el.getBoundingClientRect();
+          if (r.top < vh * 0.92 && r.bottom > -80) { el.classList.add('is-in'); return false; }
+          return true;
+        });
+      };
+      reveal();
+      window.addEventListener('scroll', reveal, { passive: true });
+      window.addEventListener('resize', reveal, { passive: true });
+      window.addEventListener('load', () => { reveal(); setTimeout(reveal, 250); });
+      if (window.__lenis && typeof window.__lenis.on === 'function') window.__lenis.on('scroll', reveal);
+      // failsafe: after 4s, reveal anything still hidden (never leave content invisible)
+      setTimeout(() => { els.forEach((el) => el.classList.add('is-in')); els = []; }, 4000);
+    }
+  </script>
+
+  <!-- Lenis smooth scroll + scroll-parallax. Skipped for reduced-motion AND for
+       horizontal pages (those run their own virtual-scroll engine on the page). -->
+  <script is:inline type="module">
+    if (document.documentElement.dataset.scroll !== 'horizontal' &&
+        !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      try {
+        const { default: Lenis } = await import('https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.mjs');
+        const lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
+        window.__lenis = lenis;
+        const raf = (t) => { lenis.raf(t); requestAnimationFrame(raf); };
+        requestAnimationFrame(raf);
+
+        // Subtle scroll-parallax for [data-speed] elements (bounded, viewport-relative)
+        const speedEls = Array.from(document.querySelectorAll('[data-speed]'));
+        const parallax = () => {
+          for (const el of speedEls) {
+            const r = el.getBoundingClientRect();
+            const center = r.top + r.height / 2 - window.innerHeight / 2;
+            const s = parseFloat(el.getAttribute('data-speed')) || 0;
+            el.style.transform = `translate3d(0, ${(center * s * -0.08).toFixed(2)}px, 0)`;
+          }
+        };
+        if (speedEls.length) { lenis.on('scroll', parallax); parallax(); }
+
+        // In-page anchor links use Lenis
+        document.querySelectorAll('a[href^="#"]').forEach((a) => {
+          a.addEventListener('click', (e) => {
+            const id = a.getAttribute('href');
+            if (id && id.length > 1 && document.querySelector(id)) {
+              e.preventDefault();
+              lenis.scrollTo(id, { offset: -80 });
+            }
+          });
+        });
+      } catch (e) { /* CDN/Lenis failure → native scroll, fine */ }
+    }
+  </script>
+</body>
+</html>

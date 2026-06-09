@@ -1,0 +1,444 @@
+---
+// Footer.astro, blue "Let's Chat" footer (matches old trezalohacreative.com)
+import { contactFormAction, lookbookAction, lookbookConfirmUrl, contact, socials, menuLinks, serviceLinks } from '../data/site.mjs';
+
+const year = new Date().getFullYear();
+
+// Minimal inline social icons (24x24, currentColor)
+const icons = {
+  LinkedIn: '<path d="M4.98 3.5a2.5 2.5 0 11-.02 5 2.5 2.5 0 01.02-5zM3 9h4v12H3zM10 9h3.8v1.64h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.5 4.78 5.75V21h-4v-5.3c0-1.27-.02-2.9-1.77-2.9-1.77 0-2.04 1.38-2.04 2.8V21h-4z"/>',
+  Instagram: '<path d="M12 2.2c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 01-1.38-.9 3.7 3.7 0 01-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.21 15.58 2.2 15.2 2.2 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.21 8.8 2.2 12 2.2zm0 1.8c-3.15 0-3.5.01-4.74.07-.89.04-1.37.19-1.69.31-.43.17-.73.36-1.05.68-.32.32-.51.62-.68 1.05-.12.32-.27.8-.31 1.69C3.21 8.5 3.2 8.85 3.2 12s.01 3.5.07 4.74c.04.89.19 1.37.31 1.69.17.43.36.73.68 1.05.32.32.62.51 1.05.68.32.12.8.27 1.69.31 1.24.06 1.59.07 4.74.07s3.5-.01 4.74-.07c.89-.04 1.37-.19 1.69-.31.43-.17.73-.36 1.05-.68.32-.32.51-.62.68-1.05.12-.32.27-.8.31-1.69.06-1.24.07-1.59.07-4.74s-.01-3.5-.07-4.74c-.04-.89-.19-1.37-.31-1.69a2.8 2.8 0 00-.68-1.05 2.8 2.8 0 00-1.05-.68c-.32-.12-.8-.27-1.69-.31C15.5 4.01 15.15 4 12 4zm0 3.07a4.93 4.93 0 110 9.86 4.93 4.93 0 010-9.86zm0 1.8a3.13 3.13 0 100 6.26 3.13 3.13 0 000-6.26zm5.13-2.4a1.15 1.15 0 110 2.3 1.15 1.15 0 010-2.3z"/>',
+  YouTube: '<path d="M23.5 6.5a3 3 0 00-2.1-2.1C19.5 3.9 12 3.9 12 3.9s-7.5 0-9.4.5A3 3 0 00.5 6.5C0 8.4 0 12 0 12s0 3.6.5 5.5a3 3 0 002.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 002.1-2.1C24 15.6 24 12 24 12s0-3.6-.5-5.5zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/>',
+  GitHub: '<path d="M12 2a10 10 0 00-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.56 9.56 0 015 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0012 2z"/>',
+};
+---
+
+<footer class="footer">
+  <div class="container">
+
+    <!-- ── Top: Let's Chat + quick form ── -->
+    <div class="footer-top">
+      <div class="footer-cta">
+        <h2 class="footer-cta-heading"><span class="lets">Let's</span><span class="chat">Chat</span></h2>
+      </div>
+
+      <form class="footer-form" action={contactFormAction} method="POST">
+        <input type="text" name="name" class="footer-field" placeholder="Name" required />
+        <input type="email" name="email" class="footer-field" placeholder="Email" required />
+        <textarea name="message" class="footer-field footer-textarea" rows="2" placeholder="Message" required></textarea>
+        <input type="text" name="_gotcha" class="footer-hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        <button type="submit" class="footer-send">Send</button>
+        <p class="footer-form-status" aria-live="polite"></p>
+      </form>
+    </div>
+
+    <!-- ── Middle: contact chips + link columns ── -->
+    <div class="footer-mid">
+      <div class="footer-chips">
+        <a href={`mailto:${contact.email}`} class="footer-chip">
+          <span class="footer-chip-icon" aria-hidden="true">✉</span>
+          <span>{contact.email}</span>
+        </a>
+        <a href={contact.locationHref} target="_blank" rel="noopener" class="footer-chip">
+          <span class="footer-chip-icon" aria-hidden="true">⌖</span>
+          <span>{contact.location}</span>
+        </a>
+      </div>
+
+      <div class="footer-cols">
+        <div class="footer-col">
+          <p class="footer-col-heading">Menu</p>
+          {menuLinks.map(l => <a href={l.href}>{l.label}</a>)}
+        </div>
+        <div class="footer-col">
+          <a href="/services" class="footer-col-heading footer-col-heading--link">Services</a>
+          {serviceLinks.map(s => <span class="footer-col-text">{s}</span>)}
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Bottom: follow + newsletter ── -->
+    <div class="footer-social-row">
+      <div class="footer-follow">
+        <span class="footer-follow-label">Follow me:</span>
+        <div class="footer-social-chips">
+          {socials.filter(s => icons[s.label]).map(s => (
+            <a href={s.href} target="_blank" rel="noopener" class="footer-social-chip" aria-label={s.label}>
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" set:html={icons[s.label]} />
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <form
+        class="footer-newsletter footer-lookbook"
+        action={lookbookAction}
+        method="post"
+        target="popupwindow"
+        data-confirm={lookbookConfirmUrl}
+      >
+        <input type="hidden" name="embed" value="1" />
+        <input type="text" name="_gotcha" class="footer-hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        <input type="email" name="email" class="footer-news-input" placeholder="Your email" required />
+        <button type="submit" class="footer-news-btn">Get the Quarterly Look Book</button>
+      </form>
+    </div>
+
+    <!-- ── Legal ── -->
+    <div class="footer-legal">
+      <p class="footer-proverb">Kuhi no ka lima, hele no ka maka. Naue i mua!</p>
+      <p class="footer-credit">Built by Tre Zamora &copy; {year} Trezaloha Creative</p>
+    </div>
+
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--color-accent-2); /* brand blue, used ONLY in the footer */
+    color: #fff;
+    padding: var(--space-xl) 0 var(--space-md);
+  }
+
+  /* ── Top ── */
+  .footer-top {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-lg);
+    align-items: center;
+    margin-bottom: var(--space-lg);
+  }
+
+  .footer-cta-heading {
+    font-family: var(--font-display);
+    line-height: 0.85;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .footer-cta-heading .lets {
+    font-size: clamp(3rem, 7vw, 6rem);
+    color: #fff;
+  }
+
+  .footer-cta-heading .chat {
+    font-size: clamp(3.5rem, 9vw, 7.5rem);
+    color: var(--color-accent);
+  }
+
+  .footer-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    background: rgba(0, 0, 0, 0.22);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 4px;
+    padding: var(--space-md);
+  }
+
+  .footer-field {
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 2px;
+    color: #fff;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    padding: 0.7rem 0.9rem;
+    width: 100%;
+    outline: none;
+    transition: border-color var(--transition);
+  }
+
+  .footer-field::placeholder { color: rgba(255, 255, 255, 0.5); }
+  .footer-field:focus { border-color: var(--color-accent); }
+  .footer-textarea { resize: vertical; min-height: 56px; }
+
+  .footer-hp {
+    position: absolute;
+    left: -9999px;
+    width: 1px; height: 1px;
+    opacity: 0;
+  }
+
+  .footer-send {
+    background: var(--color-accent);
+    color: #0a0a0a;
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    border: none;
+    border-radius: 2px;
+    padding: 0.7rem 1rem;
+    cursor: pointer;
+    transition: filter var(--transition);
+  }
+
+  .footer-send:hover { filter: brightness(1.05); }
+  .footer-send[disabled] { opacity: 0.6; cursor: progress; }
+
+  .footer-form-status {
+    font-size: 0.8rem;
+    margin: 0;
+    min-height: 0;
+  }
+  .footer-form-status:empty { display: none; }
+  .footer-form-status.is-success { color: var(--color-accent); }
+  .footer-form-status.is-error { color: #ffd2d2; }
+
+  /* ── Middle ── */
+  .footer-mid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-lg);
+    padding: var(--space-md) 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .footer-chips {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    align-content: start;
+  }
+
+  .footer-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: rgba(0, 0, 0, 0.22);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    padding: 0.7rem 1rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.85rem;
+    transition: border-color var(--transition), color var(--transition);
+    width: fit-content;
+    max-width: 100%;
+  }
+
+  .footer-chip:hover { border-color: var(--color-accent); color: #fff; }
+  .footer-chip-icon { color: var(--color-accent); flex-shrink: 0; }
+
+  .footer-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-md);
+  }
+
+  .footer-col {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .footer-col-heading {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: 0.25rem;
+  }
+
+  .footer-col a {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.78);
+    transition: color var(--transition);
+  }
+
+  .footer-col a:hover { color: #fff; }
+
+  /* Services heading is now a link, keep it looking like a heading */
+  .footer-col a.footer-col-heading { font-size: 0.7rem; color: var(--color-accent); }
+  .footer-col a.footer-col-heading:hover { color: #fff; }
+
+  .footer-col-text {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.78);
+  }
+
+  /* ── Social + Newsletter ── */
+  .footer-social-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--space-md);
+    padding: var(--space-md) 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .footer-follow {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .footer-follow-label {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.78);
+  }
+
+  .footer-social-chips { display: flex; gap: 0.5rem; }
+
+  .footer-social-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    background: rgba(0, 0, 0, 0.22);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    color: rgba(255, 255, 255, 0.85);
+    transition: var(--transition);
+  }
+
+  .footer-social-chip:hover {
+    color: #0a0a0a;
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+
+  .footer-newsletter {
+    display: flex;
+    gap: 0.5rem;
+    flex: 1;
+    max-width: 460px;
+    min-width: 280px;
+  }
+
+  .footer-news-input {
+    flex: 1;
+    background: rgba(0, 0, 0, 0.22);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 2px;
+    color: #fff;
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    padding: 0.7rem 1rem;
+    outline: none;
+    transition: border-color var(--transition);
+  }
+
+  .footer-news-input::placeholder { color: rgba(255, 255, 255, 0.5); }
+  .footer-news-input:focus { border-color: var(--color-accent); }
+
+  .footer-news-btn {
+    background: var(--color-accent);
+    color: #0a0a0a;
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 0.03em;
+    border: none;
+    border-radius: 2px;
+    padding: 0.7rem 1.2rem;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: filter var(--transition);
+  }
+
+  .footer-news-btn:hover { filter: brightness(1.05); }
+
+  /* ── Legal ── */
+  .footer-legal {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-sm);
+    padding-top: var(--space-md);
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .footer-proverb {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-style: italic;
+  }
+
+  .footer-credit {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 860px) {
+    .footer-top { grid-template-columns: 1fr; gap: var(--space-md); }
+    .footer-mid { grid-template-columns: 1fr; gap: var(--space-md); }
+    .footer-social-row { flex-direction: column; align-items: flex-start; }
+    .footer-newsletter { max-width: 100%; width: 100%; }
+  }
+
+  @media (max-width: 480px) {
+    .footer-cols { grid-template-columns: 1fr; }
+    .footer-legal { flex-direction: column; align-items: flex-start; }
+    .footer-newsletter { flex-direction: column; }
+    .footer-news-btn { width: 100%; }
+  }
+</style>
+
+<script>
+  // AJAX submit for the footer quick-contact form → Formspree
+  document.querySelectorAll('.footer-form').forEach(form => {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const f = form as HTMLFormElement;
+      const status = f.querySelector('.footer-form-status');
+      const btn = f.querySelector('button');
+
+      const hp = f.querySelector('input[name="_gotcha"]') as HTMLInputElement | null;
+      const endpoint = f.getAttribute('action') || '';
+
+      const say = (msg: string, kind = '') => {
+        if (status) {
+          status.textContent = msg;
+          status.classList.remove('is-success', 'is-error');
+          if (kind) status.classList.add(`is-${kind}`);
+        } else {
+          alert(msg);
+        }
+      };
+
+      if (hp?.value) { say('Mahalo! I\'ll be in touch soon.', 'success'); f.reset(); return; }
+      if (endpoint.includes('YOUR_CONTACT_FORM_ID')) {
+        say('Not connected yet, add your Formspree ID in src/data/site.mjs.', 'error');
+        return;
+      }
+
+      if (btn) { btn.disabled = true; }
+      try {
+        const res = await fetch(endpoint, { method: 'POST', body: new FormData(f), headers: { Accept: 'application/json' } });
+        if (res.ok) { say('Mahalo! I\'ll be in touch soon.', 'success'); f.reset(); }
+        else { say('Something went wrong, email hi@trezalohacreative.com.', 'error'); }
+      } catch {
+        say('Network error, email hi@trezalohacreative.com.', 'error');
+      } finally {
+        if (btn) { btn.disabled = false; }
+      }
+    });
+  });
+</script>
+
+<script>
+  // Look-book signup → Buttondown. Native POST opens Buttondown's confirmation
+  // page in a small popup; we just guard the honeypot + the unconfigured state.
+  document.querySelectorAll('.footer-lookbook').forEach(form => {
+    form.addEventListener('submit', (e) => {
+      const f = form as HTMLFormElement;
+      const action = f.getAttribute('action') || '';
+      const hp = f.querySelector('input[name="_gotcha"]') as HTMLInputElement | null;
+
+      if (hp?.value) { e.preventDefault(); f.reset(); return; }
+      if (action.includes('YOUR_BUTTONDOWN_USERNAME')) {
+        e.preventDefault();
+        alert('Look book signup isn’t connected yet — add your Buttondown username in src/data/site.mjs.');
+        return;
+      }
+      // Connected: let the native POST proceed and open the confirmation popup.
+      const confirmUrl = f.getAttribute('data-confirm');
+      if (confirmUrl) window.open(confirmUrl, 'popupwindow', 'width=520,height=640');
+    });
+  });
+</script>

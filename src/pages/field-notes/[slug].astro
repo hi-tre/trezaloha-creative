@@ -1,0 +1,298 @@
+---
+// src/pages/field-notes/[slug].astro, story layout:
+// giant title → dotted meta → offset abstract → wide hero → centered reading column
+// with bold subheads + full-width image bands → key takeaway → author → related.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Img from '../../components/Img.astro';
+import Cover from '../../components/Cover.astro';
+import { articles } from '../../data/articles.mjs';
+
+export function getStaticPaths() {
+  return articles.map(article => ({
+    params: { slug: article.slug },
+    props: { article },
+  }));
+}
+
+const { article } = Astro.props;
+const related = articles.filter(a => (article.relatedSlugs || []).includes(a.slug)).slice(0, 2);
+
+// body is an array of paragraphs per section
+const wordCount = article.sections.reduce(
+  (acc, sec) => acc + sec.body.join(' ').split(/\s+/).length, 0
+);
+const readTime = Math.max(1, Math.ceil(wordCount / 200));
+---
+
+<BaseLayout title={article.title} description={article.excerpt}>
+
+  <!-- Reading progress bar -->
+  <div class="progress-bar" id="progress-bar" aria-hidden="true"></div>
+
+  <!-- ══ Title hero ══ -->
+  <section class="rp-head">
+    <div class="container">
+      <p class="rp-meta" data-reveal>
+        <span class="rp-meta-item">{article.date}</span>
+        <span class="rp-meta-item">{article.tag}</span>
+        <span class="rp-meta-item">{readTime} min read</span>
+      </p>
+      <h1 class="rp-title" data-reveal="mask"><span>{article.title}</span></h1>
+      <div class="rp-intro-grid">
+        <div class="rp-intro-spacer"></div>
+        <div class="rp-intro" data-reveal>
+          <p class="rp-abstract">{article.excerpt}</p>
+          <div class="rp-topics">
+            {article.topics.map(t => <span class="rp-topic">{t}</span>)}
+          </div>
+          <a href="/field-notes" class="link rp-back">← All Notes</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ Wide hero image (real photo if set, else the kākau cover) ══ -->
+  <div class="container">
+    <div class="rp-hero-img frame" data-reveal="clip">
+      {article.heroImg
+        ? <Img src={`articles/${article.heroImg}`} alt={article.title} loading="eager" fetchpriority="high" />
+        : <Cover tag={article.tag} variant="hero" />}
+    </div>
+  </div>
+
+  <!-- ══ Body ══ -->
+  <article class="rp-body">
+    <div class="container">
+      {article.sections.map((sec, si) => (
+        <Fragment>
+          <div class="read-col">
+            {sec.heading && <h2 class="rp-h2" data-reveal>{sec.heading}</h2>}
+            {sec.body.map((para, pi) => (
+              <p class={`rp-p${si === 0 && pi === 0 ? ' rp-p--drop' : ''}`} data-reveal style={`--i:${pi === 0 ? 0 : 1}`}>{para}</p>
+            ))}
+
+            {/* pull quote after the first section */}
+            {si === 0 && article.pullQuote && (
+              <blockquote class="rp-quote" data-reveal>{article.pullQuote}</blockquote>
+            )}
+
+            {/* key takeaway after the last section */}
+            {si === article.sections.length - 1 && article.keyTakeaway && (
+              <aside class="rp-takeaway" data-reveal>
+                <p class="rp-takeaway-label">Key Takeaway</p>
+                <p class="rp-takeaway-body">{article.keyTakeaway}</p>
+              </aside>
+            )}
+          </div>
+
+          {/* image bands only when images exist */}
+          {si === 0 && article.midImg && (
+            <div class="rp-band frame" data-reveal="clip">
+              <Img src={`articles/${article.midImg}`} alt={`${sec.heading}, visual`} loading="lazy" />
+            </div>
+          )}
+          {si === 2 && article.splitImg && (
+            <div class="rp-band rp-band--tall frame" data-reveal="clip">
+              <Img src={`articles/${article.splitImg}`} alt={`${sec.heading}, visual`} loading="lazy" />
+            </div>
+          )}
+        </Fragment>
+      ))}
+    </div>
+  </article>
+
+  <!-- ══ Author ══ -->
+  <section class="section-tight rp-author-section">
+    <div class="container">
+      <div class="rp-author" data-reveal>
+        <span class="author-monogram" aria-hidden="true">TZ</span>
+        <div class="author-info">
+          <span class="author-name">Trezaloha Creative</span>
+          <span class="author-role">ʻŌiwi Design Studio · Honolulu, Hawaiʻi</span>
+        </div>
+        <a href="/field-notes" class="btn btn-outline rp-author-cta">← All Notes</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ Related ══ -->
+  {related.length > 0 && (
+    <section class="section-tight rp-related">
+      <div class="container">
+        <p class="eyebrow" data-reveal>Keep Reading</p>
+        <h2 class="section-title rp-related-title" data-reveal="mask"><span>You might also like</span></h2>
+        <ul class="rp-related-grid">
+          {related.map((a, i) => (
+            <li>
+              <a href={`/field-notes/${a.slug}`} class="rp-related-card">
+                <div class="rp-related-img frame" data-reveal="clip" style={`--i:${i}`}>
+                  {a.thumb
+                    ? <Img src={`articles/${a.thumb}`} alt={a.title} loading="lazy" />
+                    : <Cover tag={a.tag} variant="related" />}
+                </div>
+                <div class="rp-related-body" data-reveal style={`--i:${i}`}>
+                  <div class="rp-related-meta"><span class="news-tag">{a.tag}</span><time>{a.date}</time></div>
+                  <h3 class="rp-related-h3">{a.title}</h3>
+                  <span class="link">Read Note →</span>
+                </div>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+
+</BaseLayout>
+
+<style>
+  .progress-bar {
+    position: fixed; top: var(--nav-height); left: 0;
+    height: 3px; width: 0%; background: var(--color-accent); z-index: 999;
+    transition: width 0.1s linear;
+  }
+
+  /* ── Title hero ── */
+  .rp-head { padding: var(--space-lg) 0 var(--space-md); }
+  .rp-meta {
+    display: flex; flex-wrap: wrap; gap: var(--space-md);
+    margin-bottom: var(--space-md);
+  }
+  .rp-meta-item {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-size: var(--fs-xs); font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+  .rp-meta-item::before {
+    content: ''; width: 0.5rem; height: 0.5rem; border-radius: 50%;
+    background: var(--color-accent);
+  }
+  .rp-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 7vw, 6.5rem);
+    line-height: 0.9; letter-spacing: -0.01em;
+    color: var(--color-ink);
+    max-width: 20ch;
+  }
+
+  /* Offset intro/abstract (right column, like the report) */
+  .rp-intro-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-lg);
+    margin-top: var(--space-lg);
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--space-lg);
+  }
+  .rp-intro { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-md); }
+  .rp-abstract { font-size: var(--fs-lg); line-height: 1.55; color: var(--color-ink); }
+  .rp-topics { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .rp-topic {
+    border: 1px solid var(--color-border); color: var(--color-text-muted);
+    font-size: var(--fs-2xs); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 0.4rem 0.85rem;
+  }
+  .rp-back { font-size: var(--fs-sm); font-weight: 600; }
+
+  /* ── Hero image ── */
+  .rp-hero-img { margin-top: var(--space-lg); aspect-ratio: 2 / 1; width: 100%; }
+
+  /* ── Body ── */
+  .rp-body { padding: var(--space-xl) 0 var(--space-lg); }
+  .read-col { max-width: 74ch; margin: 0 auto; }
+  .rp-h2 {
+    font-family: var(--font-display);
+    font-size: var(--fs-2xl); line-height: 0.98; color: var(--color-ink);
+    margin: var(--space-xl) 0 var(--space-md);
+  }
+  .read-col:first-child .rp-h2 { margin-top: 0; }
+  .rp-p { font-family: var(--font-body); font-size: 1.1875rem; line-height: 1.85; color: var(--color-text); }
+  .rp-p + .rp-p { margin-top: 1.4rem; }
+  .rp-p--drop::first-letter {
+    font-family: var(--font-display); font-size: 4.5rem; line-height: 0.72;
+    float: left; margin: 0.06em 0.14em 0 0; color: var(--color-accent);
+  }
+
+  .rp-quote {
+    margin: var(--space-lg) 0 0;
+    padding-left: var(--space-md);
+    border-left: 4px solid var(--color-accent);
+    font-family: var(--font-display);
+    font-size: var(--fs-xl); line-height: 1.12; text-transform: uppercase;
+    color: var(--color-ink);
+  }
+
+  /* Full-width image bands between sections */
+  .rp-band { margin: var(--space-xl) 0; aspect-ratio: 16 / 7; width: 100%; }
+  .rp-band--tall { aspect-ratio: 16 / 9; }
+
+  /* Key takeaway */
+  .rp-takeaway {
+    margin-top: var(--space-lg);
+    padding: var(--space-md);
+    border: 1px solid var(--color-border);
+    border-left: 4px solid var(--color-accent);
+    background: var(--color-surface);
+  }
+  .rp-takeaway-label {
+    font-size: var(--fs-2xs); font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--color-text-muted); margin-bottom: 0.75rem;
+  }
+  .rp-takeaway-body { font-size: var(--fs-md); line-height: 1.7; color: var(--color-ink); }
+
+  /* ── Author ── */
+  .rp-author-section { border-top: 1px solid var(--color-border); }
+  .rp-author { display: flex; align-items: center; gap: var(--space-sm); flex-wrap: wrap; }
+  .author-monogram {
+    width: 56px; height: 56px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--color-accent); color: #0a0a0a;
+    font-family: var(--font-display); font-size: 1.25rem;
+  }
+  .author-info { display: flex; flex-direction: column; gap: 0.2rem; }
+  .author-name { font-family: var(--font-display); font-size: 1.1rem; color: var(--color-ink); }
+  .author-role { font-size: var(--fs-sm); color: var(--color-text-muted); }
+  .rp-author-cta { margin-left: auto; }
+
+  /* ── Related ── */
+  .rp-related { border-top: 1px solid var(--color-border); }
+  .rp-related-title { font-size: var(--fs-2xl); margin: var(--space-sm) 0 var(--space-lg); }
+  .rp-related-grid { list-style: none; display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-lg); }
+  .rp-related-card { display: flex; flex-direction: column; gap: var(--space-sm); color: inherit; }
+  .rp-related-img { aspect-ratio: 16/9; width: 100%; }
+  .rp-related-img--noimg {
+    display: flex; align-items: center; justify-content: center;
+    background: var(--color-surface); border: 1px solid var(--color-border);
+  }
+  .rp-related-tag {
+    font-family: var(--font-display);
+    font-size: var(--fs-lg); letter-spacing: 0.04em; text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+  .rp-related-body { display: flex; flex-direction: column; gap: 0.6rem; }
+  .rp-related-meta { display: flex; align-items: center; justify-content: space-between; font-size: var(--fs-xs); color: var(--color-text-muted); }
+  .news-tag { font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-accent-2); }
+  .rp-related-h3 { font-family: var(--font-display); font-size: var(--fs-lg); line-height: 1; color: var(--color-ink); transition: color var(--transition); }
+  .rp-related-card:hover .rp-related-h3 { color: var(--color-text-muted); }
+
+  /* ── Responsive ── */
+  @media (max-width: 820px) {
+    .rp-intro-grid { grid-template-columns: 1fr; gap: var(--space-md); }
+    .rp-intro-spacer { display: none; }
+    .rp-hero-img { aspect-ratio: 16/10; }
+    .rp-band, .rp-band--tall { aspect-ratio: 16/10; margin: var(--space-lg) 0; }
+    .rp-related-grid { grid-template-columns: 1fr; }
+    .rp-author-cta { margin-left: 0; }
+  }
+</style>
+
+<script>
+  const bar = document.getElementById('progress-bar');
+  const update = () => {
+    const docH = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docH > 0 ? (window.scrollY / docH) * 100 : 0;
+    if (bar) bar.style.width = pct + '%';
+  };
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+</script>

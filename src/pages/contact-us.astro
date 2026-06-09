@@ -1,0 +1,383 @@
+---
+// src/pages/contact-us.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+// Form endpoint + contact details live in one place, set the Formspree ID in src/data/site.mjs.
+import { contactFormAction } from '../data/site.mjs';
+---
+
+<BaseLayout title="Contact" description="Get in touch with Trezaloha Creative. Based in O'ahu, HI, working with clients worldwide.">
+
+  <section class="contact-page">
+    <div class="container">
+      <div class="contact-layout">
+
+        <!-- Left: Info -->
+        <div class="contact-info">
+          <h1 class="contact-heading">Let's Work<br />Together</h1>
+
+          <div class="contact-details">
+            <div class="contact-item">
+              <span class="contact-item-label">Address</span>
+              <a href="https://www.google.com/maps/place/Ko'olau+Mountains,+Hawaii" target="_blank" rel="noopener" class="contact-item-value">
+                Ko'olau Mountain Range, O'ahu, HI
+              </a>
+            </div>
+            <div class="contact-item">
+              <span class="contact-item-label">Email</span>
+              <a href="mailto:hi@trezalohacreative.com" class="contact-item-value">hi@trezalohacreative.com</a>
+            </div>
+          </div>
+
+          <div class="contact-message">
+            <span class="contact-item-label">Welcoming Message</span>
+            <p>
+              My journey in design began with a deep fascination for digital art and storytelling,
+              rooted in my Kanaka Maoli heritage. Today, I work as a multimedia designer, specializing
+              in branding, digital design, and cultural storytelling. I look forward to chatting and
+              meeting you!
+            </p>
+          </div>
+
+          <div class="contact-social">
+            <span class="contact-item-label">Follow Me</span>
+            <div class="social-links">
+              <a href="https://www.linkedin.com/in/trezamora" target="_blank" rel="noopener" class="social-link">LinkedIn</a>
+              <a href="https://www.instagram.com/jackofalltre_/" target="_blank" rel="noopener" class="social-link">Instagram</a>
+              <a href="https://www.youtube.com/@jackofalltre" target="_blank" rel="noopener" class="social-link">YouTube</a>
+              <a href="https://github.com/trezamora" target="_blank" rel="noopener" class="social-link">GitHub</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Form + Map -->
+        <div class="contact-right">
+          <!-- Contact Form, posts to Formspree (set CONTACT_FORM_ID in src/data/site.mjs) -->
+          <div class="contact-form-wrapper">
+            <h2 class="form-heading">Send a Message</h2>
+            <form class="contact-form" id="contact-form" action={contactFormAction} method="POST" novalidate>
+              <div class="form-group">
+                <label class="form-label" for="name">Your Name</label>
+                <input type="text" id="name" name="name" class="form-input" placeholder="Aloha! What's your name?" autocomplete="name" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="email">Email Address</label>
+                <input type="email" id="email" name="email" class="form-input" placeholder="your@email.com" autocomplete="email" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="subject">Subject</label>
+                <input type="text" id="subject" name="_subject" class="form-input" placeholder="What's this about?" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="message">Message</label>
+                <textarea id="message" name="message" class="form-input form-textarea" rows="6" placeholder="Tell me about your project..." required></textarea>
+              </div>
+
+              <!-- Honeypot: hidden from humans, bots fill it → submission is discarded -->
+              <input type="text" name="_gotcha" class="form-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+              <button type="submit" class="btn btn-primary form-submit">Send Message →</button>
+
+              <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+            </form>
+          </div>
+
+          <!-- Place — a designed location panel in lieu of a generic map embed -->
+          <div class="contact-place">
+            <span class="contact-item-label">Where I'm Based</span>
+            <p class="contact-place-name">Koʻolau Mountain Range</p>
+            <p class="contact-place-sub">Oʻahu, Hawaiʻi · working with clients worldwide</p>
+            <a href="https://www.google.com/maps/place/Ko'olau+Mountains,+Hawaii" target="_blank" rel="noopener" class="link contact-place-link">View on map →</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  /* This page has its own "Send a Message" form, hide the footer's duplicate
+     "Let's Chat" CTA + quick form here (keeps footer nav/contact/social/newsletter). */
+  :global(.footer-top) { display: none !important; }
+
+  .contact-page {
+    padding: var(--space-xl) 0;
+  }
+
+  .contact-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: var(--space-xl);
+    align-items: start;
+  }
+
+  .contact-heading {
+    font-size: var(--fs-display);
+    margin-bottom: var(--space-lg);
+    line-height: 1.0;
+  }
+
+  .contact-details {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--space-md);
+  }
+
+  .contact-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .contact-item-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+
+  .contact-item-value {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--color-text);
+    transition: color var(--transition);
+  }
+
+  .contact-item-value:hover {
+    color: var(--color-accent);
+  }
+
+  .contact-message {
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--space-md);
+    margin-top: var(--space-md);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .contact-message p {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    line-height: 1.7;
+  }
+
+  .contact-social {
+    margin-top: var(--space-md);
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--space-md);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .social-links {
+    display: flex;
+    gap: var(--space-sm);
+    flex-wrap: wrap;
+  }
+
+  .social-link {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    border: 1px solid var(--color-border);
+    padding: 0.375rem 0.875rem;
+    transition: var(--transition);
+  }
+
+  .social-link:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+
+  /* Form */
+  .contact-form-wrapper {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    padding: var(--space-lg);
+    margin-bottom: var(--space-md);
+  }
+
+  .form-heading {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    margin-bottom: var(--space-md);
+  }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+
+  .form-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+  }
+
+  .form-input {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    padding: 0.75rem 1rem;
+    transition: border-color var(--transition);
+    outline: none;
+    width: 100%;
+  }
+
+  .form-input:focus {
+    border-color: var(--color-accent);
+  }
+
+  .form-input::placeholder {
+    color: var(--color-text-muted);
+  }
+
+  .form-textarea {
+    resize: vertical;
+    min-height: 140px;
+  }
+
+  .form-submit {
+    align-self: flex-start;
+    margin-top: var(--space-xs);
+  }
+
+  .form-submit[disabled] {
+    opacity: 0.6;
+    cursor: progress;
+  }
+
+  /* Honeypot, visually & programmatically hidden, kept in the DOM for bots */
+  .form-honeypot {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .form-status {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .form-status:empty {
+    display: none;
+  }
+
+  .form-status.is-success {
+    color: var(--color-accent);
+  }
+
+  .form-status.is-error {
+    color: #ff6b6b;
+  }
+
+  /* Place panel (replaces the old map iframe) */
+  .contact-place {
+    background: var(--color-ink, #0a0a0a);
+    color: #f4f2ed;
+    padding: var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .contact-place .contact-item-label { color: var(--color-accent); }
+  .contact-place-name {
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    line-height: 1;
+  }
+  .contact-place-sub {
+    color: rgba(244, 242, 237, 0.7);
+    font-size: 0.9rem;
+  }
+  .contact-place-link {
+    color: #f4f2ed;
+    align-self: flex-start;
+    margin-top: var(--space-xs);
+  }
+
+  @media (max-width: 900px) {
+    .contact-layout {
+      grid-template-columns: 1fr;
+      gap: var(--space-lg);
+    }
+  }
+</style>
+
+<script>
+  // AJAX submit to Formspree, keeps visitor on the page, shows inline status.
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  const status = document.getElementById('form-status');
+  const submitBtn = form?.querySelector('.form-submit') as HTMLButtonElement | null;
+
+  function setStatus(message: string, kind: 'success' | 'error' | '' = '') {
+    if (!status) return;
+    status.textContent = message;
+    status.classList.remove('is-success', 'is-error');
+    if (kind) status.classList.add(`is-${kind}`);
+  }
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    // Honeypot tripped → silently pretend success, never send.
+    const honeypot = form.querySelector('input[name="_gotcha"]') as HTMLInputElement | null;
+    if (honeypot?.value) {
+      setStatus("Mahalo! Your message has been sent.", 'success');
+      form.reset();
+      return;
+    }
+
+    const endpoint = form.getAttribute('action') || '';
+    if (endpoint.includes('YOUR_CONTACT_FORM_ID')) {
+      setStatus("Form isn't connected yet, add your Formspree ID in src/data/site.mjs.", 'error');
+      return;
+    }
+
+    if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Sending…'; }
+    setStatus('');
+
+    try {
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { Accept: 'application/json' },
+      });
+
+      if (res.ok) {
+        setStatus("Mahalo! Your message has been sent, I'll be in touch soon.", 'success');
+        form.reset();
+      } else {
+        const data = await res.json().catch(() => null);
+        const msg = data?.errors?.map((er: any) => er.message).join(', ');
+        setStatus(msg || 'Something went wrong. Please email hi@trezalohacreative.com directly.', 'error');
+      }
+    } catch {
+      setStatus('Network error. Please email hi@trezalohacreative.com directly.', 'error');
+    } finally {
+      if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Send Message →'; }
+    }
+  });
+</script>

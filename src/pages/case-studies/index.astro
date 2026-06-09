@@ -1,0 +1,258 @@
+---
+// src/pages/case-studies/index.astro
+// Projects index — EDITORIAL redesign:
+// big "Projects / Real Impact" hero, then the projects as large editorial rows
+// with full-bleed framed images (hover zoom), gold eyebrow, Anton titles,
+// award numerals, and a black-text .link CTA.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Img from '../../components/Img.astro';
+import { caseStudies as allStudies } from '../../data/case-studies.mjs';
+
+// Single source of truth: derive the cards from the shared data.
+// thumb = heroImage; design cards carry award numerals, art cards carry discipline · year.
+const caseStudies = allStudies.map(cs => ({
+  slug: cs.slug,
+  type: cs.type ?? 'design',
+  thumb: cs.heroImage,
+  hasMedia: cs.hasMedia,
+  title: cs.title,
+  desc: cs.desc ?? cs.subtitle ?? cs.overview,
+  awardNum: cs.awardNum,
+  awardLabel: cs.awardLabel,
+  discipline: cs.discipline,
+  year: cs.year,
+}));
+
+// Filter tabs — ALL + the types actually present, in a stable order.
+const TYPE_LABELS = { design: 'Design', art: 'Art' };
+const presentTypes = ['design', 'art'].filter(t => caseStudies.some(cs => cs.type === t));
+const tabs = ['all', ...presentTypes];
+---
+
+<BaseLayout title="Projects" description="Explore case studies from Trezaloha Creative. Award-winning projects rooted in cultural authenticity.">
+
+  <!-- ── Hero ── -->
+  <section class="proj-hero">
+    <div class="container">
+      <p class="eyebrow" data-reveal>Selected Work · Design &amp; Art</p>
+      <h1 class="proj-hero-title" data-reveal="mask"><span>Projects With</span></h1>
+      <h1 class="proj-hero-title proj-hero-title--accent" data-reveal="mask" style="--i:1"><span>Real Impact</span></h1>
+      <p class="proj-hero-lede" data-reveal style="--i:2">
+        Two practices, one ʻōiwi lens. Award-winning design case studies
+        alongside a multidisciplinary art practice spanning kapa, carving,
+        illustration, and more.
+      </p>
+
+      <!-- ── Filter tabs (Design / Kapa) ── -->
+      <div class="proj-tabs" role="tablist" aria-label="Filter projects by type" data-reveal style="--i:3">
+        {tabs.map((t, i) => (
+          <button
+            class={`proj-tab${i === 0 ? ' is-active' : ''}`}
+            data-filter={t}
+            role="tab"
+            aria-selected={i === 0 ? 'true' : 'false'}
+          >
+            {t === 'all' ? 'All' : TYPE_LABELS[t]}
+          </button>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Bento grid of projects ── -->
+  <section class="projects-section">
+    <div class="container">
+      <div class="bento" id="projects-grid">
+        {caseStudies.map((cs, i) => (
+          <a href={`/case-studies/${cs.slug}`} class="bento-card" data-card data-type={cs.type} data-reveal>
+            <div class="frame bento-frame" data-reveal="clip">
+              {cs.hasMedia ? (
+                <Img src={`case-studies/${cs.thumb}`} alt={cs.title} loading={i < 2 ? 'eager' : 'lazy'} />
+              ) : (
+                <span class="bento-ph">Add cover image</span>
+              )}
+              <span class="bento-index">{String(i + 1).padStart(2, '0')}</span>
+            </div>
+            <div class="bento-block">
+              <span class="bento-eyebrow">{cs.type === 'art' ? `Art · ${cs.discipline}` : 'Case Study'}</span>
+              <h2 class="bento-title">{cs.title}</h2>
+              <div class="bento-meta">
+                <span class="bento-meta-text">
+                  {cs.type === 'art'
+                    ? cs.year
+                    : `${cs.awardNum} · ${cs.awardLabel}`}
+                </span>
+                <span class="bento-cta">View →</span>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+      <p class="bento-empty" id="projects-empty" hidden>No projects in this category yet.</p>
+    </div>
+  </section>
+
+  <script>
+    import { initBento, layoutBento } from '../../scripts/bento.js';
+
+    const grid = document.getElementById('projects-grid');
+    const tabsEl = document.querySelectorAll<HTMLButtonElement>('.proj-tab');
+    const cards = document.querySelectorAll<HTMLElement>('#projects-grid .bento-card');
+    const empty = document.getElementById('projects-empty');
+
+    initBento(grid);
+
+    tabsEl.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        const filter = tab.dataset.filter;
+        tabsEl.forEach((t) => {
+          const active = t === tab;
+          t.classList.toggle('is-active', active);
+          t.setAttribute('aria-selected', active ? 'true' : 'false');
+        });
+        let shown = 0;
+        cards.forEach((card) => {
+          const show = filter === 'all' || card.dataset.type === filter;
+          card.classList.toggle('is-hidden', !show);
+          if (show) shown++;
+        });
+        if (empty) empty.hidden = shown > 0;
+        layoutBento(grid);
+      });
+    });
+  </script>
+
+</BaseLayout>
+
+<style>
+  /* ── Hero ── */
+  .proj-hero {
+    padding: var(--space-lg) 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .proj-hero .eyebrow { margin-bottom: var(--space-md); }
+
+  .proj-hero-title {
+    font-family: var(--font-display);
+    font-size: var(--fs-display);
+    line-height: 0.86;
+    letter-spacing: -0.005em;
+    color: var(--color-ink);
+  }
+  .proj-hero-title--accent { color: var(--color-ink); }
+
+  .proj-hero-lede {
+    margin-top: var(--space-md);
+    max-width: 46ch;
+    font-size: var(--fs-md);
+    color: var(--color-text-muted);
+  }
+
+  /* ── Filter tabs ── */
+  .proj-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    margin-top: var(--space-lg);
+  }
+  .proj-tab {
+    font-family: var(--font-display);
+    font-size: var(--fs-sm);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    background: none;
+    border: 1px solid var(--color-border);
+    border-radius: 2px;
+    padding: 0.55em 1.2em;
+    cursor: pointer;
+    transition: color var(--transition), border-color var(--transition), background var(--transition);
+  }
+  .proj-tab:hover { color: var(--color-ink); border-color: var(--color-ink); }
+  .proj-tab.is-active {
+    color: var(--color-ink);
+    border-color: var(--color-ink);
+    background: var(--color-accent);
+  }
+
+  /* ── Bento grid ── */
+  .projects-section { padding: var(--space-xl) 0; }
+
+  .bento {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-auto-rows: clamp(128px, 13vw, 205px);
+    grid-auto-flow: row dense;
+    gap: var(--space-sm);
+  }
+  .bento-card.is-hidden { display: none; }
+
+  .bento-card {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    color: inherit;
+    text-decoration: none;
+    background: var(--color-surface);
+  }
+  .bento-frame { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .bento-frame img { width: 100%; height: 100%; object-fit: cover; }
+  .bento-ph {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    border: 1px dashed var(--color-border);
+    font-size: var(--fs-2xs); font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+
+  .bento-index {
+    position: absolute; top: 0.9rem; left: 1rem; z-index: 3;
+    font-family: var(--font-display); font-size: 0.95rem; letter-spacing: 0.05em;
+    color: #fff; mix-blend-mode: difference;
+  }
+
+  /* white info block — bottom-left, overlapping the image */
+  .bento-block {
+    position: absolute; left: 0; bottom: 0; z-index: 2;
+    max-width: 92%;
+    background: #fff;
+    padding: 0.85rem 1.05rem 0.9rem;
+  }
+  .bento-eyebrow {
+    display: block;
+    font-size: var(--fs-2xs); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin-bottom: 0.4rem;
+  }
+  .bento-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.05rem, 1.5vw, 1.55rem);
+    line-height: 1.02; text-transform: uppercase; color: var(--color-ink);
+  }
+  .bento-meta {
+    display: flex; align-items: center; justify-content: space-between; gap: var(--space-sm);
+    margin-top: 0.6rem;
+  }
+  .bento-meta-text {
+    display: inline-flex; align-items: center; gap: 0.45rem;
+    font-size: var(--fs-2xs); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+  .bento-meta-text::before {
+    content: ''; width: 0.4rem; height: 0.4rem; border-radius: 50%; background: var(--color-accent); flex-shrink: 0;
+  }
+  .bento-cta {
+    font-size: var(--fs-2xs); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--color-ink); white-space: nowrap; transition: color var(--transition);
+  }
+  .bento-card:hover .bento-cta { color: var(--color-accent-2); }
+
+  .bento-empty { color: var(--color-text-muted); font-size: var(--fs-md); padding: var(--space-lg) 0; }
+
+  /* ── Responsive ── */
+  @media (max-width: 720px) {
+    .bento { grid-template-columns: 1fr; grid-auto-rows: auto; gap: var(--space-md); }
+    .bento-card { aspect-ratio: 4 / 3; }
+    .bento-title { font-size: var(--fs-lg); }
+  }
+</style>

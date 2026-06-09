@@ -1,0 +1,386 @@
+---
+// src/pages/services.astro — story-led, image-rich services page.
+// Two spheres (Design + Art) framed by one ʻōiwi approach, woven through with real work imagery.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Img from '../components/Img.astro';
+
+// Full-bleed hero image band (detail shots from real projects)
+const strip = ['piko-2.jpg', 'isle-3.jpg', 'hana-2.jpg', 'coral-2.jpg', 'ikebase-3.jpg', 'somm-2.jpg'];
+
+// The method behind everything (ties to the Field Notes on kilo / moʻolelo / hana noʻeau)
+const approach = [
+  { word: 'Kilo', label: 'Observation', body: 'Before anything is made, I look. Reading a brand, a community, a material, a place, and letting what is actually there shape what comes next.' },
+  { word: 'Moʻolelo', label: 'Story', body: 'Every project belongs to a larger story. I ask what it carries forward, and for whom, so the work holds meaning beyond the deliverable.' },
+  { word: 'Hana noʻeau', label: 'Skilled making', body: 'Thinking and making are not separate. The same care goes into a brand system as a beaten sheet of kapa, because making something well is its own form of knowledge.' },
+];
+
+// Design + design-adjacent fields
+const designServices = [
+  { title: 'Visual Identity & Branding', body: 'Identities that carry meaning, not just a look. Logos, marks, color, and type built into a system that holds together everywhere it shows up.' },
+  { title: 'UX/UI & Web', body: 'Digital products and websites designed around the people who use them, then built to be fast, accessible, and genuinely usable.' },
+  { title: 'Digital & Print', body: 'Campaigns and collateral that tell a brand story across screens and paper, rooted in cultural authenticity rather than trend.' },
+  { title: 'Editorial & Environmental', body: 'Design that lives on the page and in space. Publications, wayfinding, and exhibition graphics that respect language, place, and the people moving through them.' },
+];
+
+// The art practice, by medium
+const artMediums = [
+  { name: 'Hawaiian Kapa', body: 'Barkcloth beaten by hand from wauke, watermarked and dyed with plants from the land.' },
+  { name: 'Woodworking', body: 'Carved forms and objects in native woods, shaped with the grain rather than against it.' },
+  { name: 'Illustration', body: 'Line and color in service of moʻolelo, moving between ink on paper and digital.' },
+  { name: 'Acrylic Painting', body: 'Painted work that lets color and surface carry the story on their own terms.' },
+  { name: 'Exhibition & Experience', body: 'Spatial work that unfolds as a story you move through, not just objects on a wall.' },
+];
+
+// Selected work mosaic (real case studies, clickable)
+const work = [
+  { slug: 'piko-playground', img: 'piko-hero.jpg', title: 'Piko: A Creative Playground' },
+  { slug: 'isle-mobile-app', img: 'isle-hero.jpg', title: 'Island Sustainability Learning' },
+  { slug: 'hana-culture-stem', img: 'hana-hero.jpg', title: 'Hana: Culture & STEM' },
+  { slug: 'coral-collective-ai', img: 'coral-hero.jpg', title: 'Coral Conservation × AI' },
+  { slug: 'ikebase-web-app', img: 'ikebase-hero.jpg', title: 'Kūʻē Petition ʻIkebase' },
+  { slug: 'somm-says', img: 'somm-hero.jpg', title: 'Uncorking Engagement: Somm Says' },
+];
+
+// How I work (the four-stage process, moved here from About)
+const process = [
+  { num: '01', title: 'Research & Strategy', desc: 'I gather what the project needs, do cultural research when relevant, and shape a strategic approach. Understanding your vision, audience, and requirements builds a solid foundation.' },
+  { num: '02', title: 'Design & Development', desc: 'Strategy becomes visual. I create concepts, develop prototypes, and refine against the objectives, working iteratively so the result aligns with your vision.' },
+  { num: '03', title: 'Testing & Implementation', desc: 'I test every element to be sure it works as intended, refine based on feedback, and prepare all deliverables carefully for launch.' },
+  { num: '04', title: 'Evaluation & Support', desc: "After launch I evaluate how it performed, gather feedback, and provide ongoing support so the work keeps serving its purpose over time." },
+];
+---
+
+<BaseLayout title="Services" description="Design and art from Trezaloha Creative. Two practices, one ʻōiwi lens, held to the same care.">
+
+  <!-- ══ Hero ══ -->
+  <section class="svc-hero">
+    <div class="container">
+      <p class="eyebrow" data-reveal>What I do</p>
+      <h1 class="svc-hero-title" data-reveal="mask"><span>Two practices,</span></h1>
+      <h1 class="svc-hero-title svc-hero-title--accent" data-reveal="mask" style="--i:1"><span>one ʻōiwi lens</span></h1>
+      <p class="svc-hero-lede" data-reveal style="--i:2">
+        The studio holds two spheres, design and art, not as separate departments but as
+        two expressions of a single creative practice. Both are made with the same attention,
+        rooted in ʻŌiwi ways of knowing.
+      </p>
+    </div>
+  </section>
+
+  <!-- ══ Full-bleed work strip ══ -->
+  <div class="svc-strip" data-reveal>
+    {strip.map((img, i) => (
+      <div class="svc-strip-cell frame" data-reveal="clip" style={`--i:${i % 3}`}>
+        <Img src={`case-studies/${img}`} alt="" loading={i < 3 ? 'eager' : 'lazy'} />
+      </div>
+    ))}
+  </div>
+
+  <!-- ══ The approach (full black) ══ -->
+  <section class="svc-approach">
+    <div class="container">
+      <header class="svc-approach-head">
+        <p class="eyebrow svc-eyebrow-light" data-reveal>The approach</p>
+        <h2 class="svc-approach-title" data-reveal="mask"><span>The same care in every medium</span></h2>
+        <p class="svc-approach-lede" data-reveal style="--i:1">
+          Whether the work is a brand identity or a beaten sheet of kapa, it begins the same way.
+          Three practices from Hawaiian knowledge traditions run through everything I make.
+        </p>
+      </header>
+      <div class="svc-approach-grid">
+        {approach.map((a, i) => (
+          <article class="svc-principle" data-reveal style={`--i:${i}`}>
+            <h3 class="svc-principle-word">{a.word}</h3>
+            <p class="svc-principle-label">{a.label}</p>
+            <p class="svc-principle-body">{a.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ Design sphere ══ -->
+  <section class="svc-sphere">
+    <div class="container">
+      <header class="svc-sphere-head">
+        <p class="eyebrow" data-reveal>Sphere 01</p>
+        <h2 class="svc-sphere-title" data-reveal="mask"><span>Design</span></h2>
+        <p class="svc-sphere-lede" data-reveal style="--i:1">
+          Design and design-adjacent fields, for clients, brands, and communities. The goal is
+          never decoration. It is work that is beautiful, useful, and culturally true.
+        </p>
+      </header>
+
+      <ul class="svc-mediums">
+        {designServices.map((svc, i) => (
+          <li class="svc-medium" data-reveal style={`--i:${i % 2}`}>
+            <h3 class="svc-medium-name">{svc.title}</h3>
+            <p class="svc-medium-body">{svc.body}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- ══ Art sphere (surface) ══ -->
+  <section class="svc-sphere svc-sphere--art">
+    <div class="container">
+      <header class="svc-sphere-head">
+        <p class="eyebrow" data-reveal>Sphere 02</p>
+        <h2 class="svc-sphere-title" data-reveal="mask"><span>Art</span></h2>
+        <p class="svc-sphere-lede" data-reveal style="--i:1">
+          A multidisciplinary art practice rooted in Hawaiian tradition and a continued study of
+          making. Available for commissions, exhibitions, and collaborations across several mediums.
+        </p>
+      </header>
+
+      <ul class="svc-mediums">
+        {artMediums.map((m, i) => (
+          <li class="svc-medium" data-reveal style={`--i:${i % 2}`}>
+            <h3 class="svc-medium-name">{m.name}</h3>
+            <p class="svc-medium-body">{m.body}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- ══ Selected work mosaic ══ -->
+  <section class="svc-work">
+    <div class="container">
+      <header class="svc-sphere-head">
+        <p class="eyebrow" data-reveal>Selected work</p>
+        <h2 class="svc-work-title" data-reveal="mask"><span>Made, not just promised</span></h2>
+      </header>
+    </div>
+    <div class="svc-work-grid">
+      {work.map((w, i) => (
+        <a href={`/case-studies/${w.slug}`} class={`svc-work-item frame svc-work-item--${i + 1}`} data-reveal="clip" style={`--i:${i % 3}`}>
+          <Img src={`case-studies/${w.img}`} alt={w.title} loading="lazy" />
+          <span class="svc-work-cap">{w.title}</span>
+        </a>
+      ))}
+    </div>
+    <div class="container">
+      <a href="/case-studies" class="link svc-work-link" data-reveal>See all projects →</a>
+    </div>
+  </section>
+
+  <!-- ══ How I work (process, full black) ══ -->
+  <section class="svc-process">
+    <div class="container">
+      <header class="svc-sphere-head">
+        <p class="eyebrow svc-eyebrow-light" data-reveal>How I work</p>
+        <h2 class="svc-process-title" data-reveal="mask"><span>A four-stage process</span></h2>
+        <p class="svc-approach-lede" data-reveal style="--i:1">
+          However different the medium, the path from first conversation to finished work stays steady.
+        </p>
+      </header>
+      <ol class="svc-process-grid">
+        {process.map((step, i) => (
+          <li class="svc-step" data-reveal style={`--i:${i % 2}`}>
+            <span class="svc-step-num">{step.num}</span>
+            <h3 class="svc-step-title">{step.title}</h3>
+            <p class="svc-step-desc">{step.desc}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- ══ Ways to begin ══ -->
+  <section class="svc-ways">
+    <div class="container">
+      <header class="svc-sphere-head">
+        <p class="eyebrow" data-reveal>Working together</p>
+        <h2 class="svc-sphere-title" data-reveal="mask"><span>Ways to begin</span></h2>
+      </header>
+      <div class="svc-ways-grid">
+        <article class="svc-way" data-reveal><h3 class="svc-way-title">Commissions</h3><p class="svc-way-body">Original design or art work made for you, your brand, or your space.</p></article>
+        <article class="svc-way" data-reveal style="--i:1"><h3 class="svc-way-title">Collaborations</h3><p class="svc-way-body">Partnering with teams, organizations, and other makers on shared projects.</p></article>
+        <article class="svc-way" data-reveal><h3 class="svc-way-title">Workshops & facilitation</h3><p class="svc-way-body">Hands-on sessions and ʻōiwi design facilitation for groups and communities.</p></article>
+        <article class="svc-way" data-reveal style="--i:1"><h3 class="svc-way-title">Consultation</h3><p class="svc-way-body">Guidance on culturally grounded design, brand, and creative direction.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ Closing invitation (full black) ══ -->
+  <section class="svc-cta-section">
+    <div class="container">
+      <div class="svc-cta-block" data-reveal>
+        <p class="eyebrow svc-eyebrow-light">Let's make something</p>
+        <h2 class="svc-cta-title" data-reveal="mask"><span>Have a project, a piece, or an idea in mind?</span></h2>
+        <p class="svc-cta-text">Tell me about it. The best work starts with a conversation, not a brief.</p>
+        <a href="/contact-us" class="btn btn-primary svc-cta-btn">Get in touch →</a>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  /* ══ Hero ══ */
+  .svc-hero { padding: var(--space-lg) 0 var(--space-lg); }
+  .svc-hero .eyebrow { margin-bottom: var(--space-md); }
+  .svc-hero-title {
+    font-family: var(--font-display);
+    font-size: var(--fs-display);
+    line-height: 0.84;
+    letter-spacing: -0.01em;
+    color: var(--color-ink);
+  }
+  .svc-hero-title--accent { color: var(--color-text-muted); }
+  .svc-hero-lede {
+    margin-top: var(--space-md);
+    max-width: 52ch;
+    font-size: var(--fs-lg);
+    line-height: 1.5;
+    color: var(--color-text-muted);
+  }
+
+  /* ══ Full-bleed work strip ══ */
+  .svc-strip {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 6px;
+    margin-bottom: 0;
+  }
+  .svc-strip-cell { height: clamp(200px, 30vh, 420px); width: 100%; }
+  .svc-strip-cell img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* ══ Approach (full black) ══ */
+  .svc-approach { background: #0a0a0a; color: #fff; padding: var(--space-xl) 0; }
+  .svc-eyebrow-light { color: rgba(255, 255, 255, 0.6); }
+  .svc-approach-head { max-width: 60ch; margin-bottom: var(--space-xl); }
+  .svc-approach-title {
+    font-family: var(--font-display);
+    font-size: var(--fs-3xl);
+    line-height: 0.92;
+    color: #fff;
+    margin: var(--space-sm) 0 var(--space-md);
+  }
+  .svc-approach-lede { color: rgba(255, 255, 255, 0.7); font-size: var(--fs-md); line-height: 1.7; }
+
+  .svc-approach-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-lg);
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+    padding-top: var(--space-lg);
+  }
+  .svc-principle-word { font-family: var(--font-display); font-size: var(--fs-xl); color: var(--color-accent); line-height: 1; }
+  .svc-principle-label {
+    font-size: var(--fs-2xs); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.55); margin: 0.5rem 0 var(--space-sm);
+  }
+  .svc-principle-body { color: rgba(255, 255, 255, 0.8); line-height: 1.7; font-size: var(--fs-base); }
+
+  /* ══ Spheres ══ */
+  .svc-sphere { padding: var(--space-xl) 0; }
+  .svc-sphere--art { background: var(--color-surface); }
+  .svc-sphere-head { max-width: 60ch; margin-bottom: var(--space-lg); }
+  .svc-sphere-title {
+    font-family: var(--font-display);
+    font-size: var(--fs-display);
+    line-height: 0.86;
+    color: var(--color-ink);
+    margin: var(--space-2xs) 0 var(--space-md);
+  }
+  .svc-sphere-lede { color: var(--color-text-muted); font-size: var(--fs-md); line-height: 1.7; max-width: 56ch; }
+
+  .svc-mediums {
+    list-style: none; margin: 0; padding: 0;
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-lg);
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--space-lg);
+  }
+  .svc-medium-name { font-family: var(--font-display); font-size: var(--fs-xl); line-height: 1; color: var(--color-ink); margin-bottom: var(--space-2xs); }
+  .svc-medium-body { color: var(--color-text-muted); line-height: 1.7; font-size: var(--fs-base); max-width: 44ch; }
+
+  /* ══ Selected work mosaic ══ */
+  .svc-work { padding: var(--space-xl) 0; }
+  .svc-work-title {
+    font-family: var(--font-display);
+    font-size: var(--fs-3xl);
+    line-height: 0.92;
+    color: var(--color-ink);
+    margin: var(--space-2xs) 0 var(--space-md);
+  }
+  .svc-work-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-auto-rows: clamp(90px, 11vw, 150px);
+    gap: var(--gutter, 1rem);
+    padding: 0 var(--gutter);
+    margin: var(--space-md) 0;
+  }
+  .svc-work-item { position: relative; overflow: hidden; display: block; }
+  .svc-work-item img { width: 100%; height: 100%; object-fit: cover; }
+  .svc-work-item--1 { grid-column: span 4; grid-row: span 3; }
+  .svc-work-item--2 { grid-column: span 2; grid-row: span 3; }
+  .svc-work-item--3 { grid-column: span 2; grid-row: span 2; }
+  .svc-work-item--4 { grid-column: span 4; grid-row: span 2; }
+  .svc-work-item--5 { grid-column: span 3; grid-row: span 2; }
+  .svc-work-item--6 { grid-column: span 3; grid-row: span 2; }
+  .svc-work-cap {
+    position: absolute; left: 0; bottom: 0; z-index: 2;
+    background: #fff; color: var(--color-ink);
+    font-family: var(--font-display); font-size: var(--fs-sm); text-transform: uppercase;
+    padding: 0.5rem 0.85rem; max-width: 90%;
+    opacity: 0; transform: translateY(6px); transition: opacity var(--transition), transform var(--transition);
+  }
+  .svc-work-item:hover .svc-work-cap { opacity: 1; transform: translateY(0); }
+  @media (hover: none) { .svc-work-cap { opacity: 1; transform: none; } }
+  .svc-work-link { display: inline-block; margin-top: var(--space-md); font-weight: 600; }
+
+  /* ══ Process (full black) ══ */
+  .svc-process { background: #0a0a0a; color: #fff; padding: var(--space-xl) 0; }
+  .svc-process-title { font-family: var(--font-display); font-size: var(--fs-3xl); line-height: 0.9; color: #fff; margin: var(--space-2xs) 0 var(--space-md); }
+  .svc-process-grid {
+    list-style: none; margin: 0; padding: var(--space-lg) 0 0;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-lg);
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+  }
+  .svc-step-num { font-family: var(--font-display); font-size: clamp(2.5rem, 5vw, 4rem); line-height: 0.8; color: var(--color-accent); display: block; }
+  .svc-step-title { font-family: var(--font-display); font-size: var(--fs-lg); color: #fff; margin: var(--space-sm) 0 var(--space-xs); }
+  .svc-step-desc { color: rgba(255, 255, 255, 0.72); line-height: 1.65; font-size: var(--fs-sm); }
+
+  /* ══ Ways to begin ══ */
+  .svc-ways { padding: var(--space-xl) 0; }
+  .svc-ways-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-lg);
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--space-lg);
+  }
+  .svc-way-title { font-family: var(--font-display); font-size: var(--fs-lg); color: var(--color-ink); margin-bottom: var(--space-2xs); }
+  .svc-way-title::before {
+    content: ''; display: inline-block;
+    width: 0.5rem; height: 0.5rem; background: var(--color-accent); border-radius: 50%;
+    margin-right: 0.6em; vertical-align: 0.15em;
+  }
+  .svc-way-body { color: var(--color-text-muted); line-height: 1.7; font-size: var(--fs-base); max-width: 46ch; }
+
+  /* ══ Closing CTA (full black) ══ */
+  .svc-cta-section { background: #0a0a0a; color: #fff; padding: var(--space-xl) 0; }
+  .svc-cta-block { max-width: 900px; display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-sm); }
+  .svc-cta-title { font-family: var(--font-display); font-size: var(--fs-3xl); line-height: 0.92; color: #fff; margin: var(--space-2xs) 0 var(--space-xs); max-width: 20ch; }
+  .svc-cta-text { color: rgba(255, 255, 255, 0.7); font-size: var(--fs-lg); max-width: 48ch; margin-bottom: var(--space-sm); }
+
+  /* ══ Responsive ══ */
+  @media (max-width: 900px) {
+    .svc-strip { grid-template-columns: repeat(3, 1fr); }
+    .svc-process-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 820px) {
+    .svc-approach-grid { grid-template-columns: 1fr; gap: var(--space-md); }
+    .svc-mediums { grid-template-columns: 1fr; gap: var(--space-md); }
+    .svc-ways-grid { grid-template-columns: 1fr; gap: var(--space-md); }
+  }
+  @media (max-width: 680px) {
+    .svc-strip { grid-template-columns: repeat(2, 1fr); }
+    /* mosaic → simple stack of uniform tiles */
+    .svc-work-grid { grid-template-columns: 1fr; grid-auto-rows: auto; }
+    .svc-work-item { grid-column: 1 / -1 !important; grid-row: auto !important; aspect-ratio: 16 / 10; }
+  }
+</style>

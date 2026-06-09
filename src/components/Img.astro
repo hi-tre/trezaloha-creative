@@ -1,0 +1,43 @@
+---
+// Img.astro — thin wrapper around astro:assets <Image> that lets us keep
+// referencing images by their folder/filename string (e.g. "case-studies/piko-hero.jpg")
+// while getting build-time optimization: modern formats, compression, and intrinsic
+// width/height baked in (which prevents layout shift / CLS as images load).
+//
+// All source images live under src/assets/images/** and are picked up here via glob.
+import { Image } from 'astro:assets';
+
+const images = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/assets/images/**/*.{jpeg,jpg,png,gif,webp,avif}',
+  { eager: true },
+);
+
+interface Props {
+  src: string;                       // path relative to src/assets/images/ e.g. "home/featured.jpg"
+  alt: string;
+  class?: string;
+  loading?: 'lazy' | 'eager';
+  widths?: number[];                 // optional responsive srcset widths
+  sizes?: string;
+  fetchpriority?: 'high' | 'low' | 'auto';
+}
+
+const { src, alt, class: className, loading = 'lazy', widths, sizes, fetchpriority } = Astro.props;
+
+const key = `/src/assets/images/${src}`;
+const mod = images[key];
+if (!mod) {
+  throw new Error(`<Img> could not find image: ${key} (looked under src/assets/images/)`);
+}
+const image = mod.default;
+---
+<Image
+  src={image}
+  alt={alt}
+  class={className}
+  loading={loading}
+  decoding="async"
+  fetchpriority={fetchpriority}
+  widths={widths}
+  sizes={sizes}
+/>
