@@ -70,8 +70,10 @@ const orgSchema = {
   <!-- Structured data -->
   <script type="application/ld+json" set:html={JSON.stringify(orgSchema)} />
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/svg+xml" href={url('/favicon.svg')} />
+  <!-- Favicon (Trezaloha mark) -->
+  <link rel="icon" type="image/png" sizes="32x32" href={url('/favicon-32.png')} />
+  <link rel="icon" type="image/png" sizes="64x64" href={url('/favicon.png')} />
+  <link rel="apple-touch-icon" sizes="180x180" href={url('/apple-touch-icon.png')} />
 
   <!-- Scroll-reveal: arm the hidden state synchronously so there's no flash.
        Only when motion is allowed AND IntersectionObserver exists (else everything
