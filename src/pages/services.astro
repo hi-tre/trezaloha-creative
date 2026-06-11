@@ -58,7 +58,7 @@ const process = [
     <div class="container">
       <p class="eyebrow" data-reveal>What I do</p>
       <h1 class="svc-hero-title" data-reveal="mask"><span>Two practices,</span></h1>
-      <h1 class="svc-hero-title svc-hero-title--accent" data-reveal="mask" style="--i:1"><span>one ʻōiwi lens</span></h1>
+      <span class="svc-hero-title svc-hero-title--accent" data-reveal="mask" style="--i:1"><span>one ʻōiwi lens</span></span>
       <p class="svc-hero-lede" data-reveal style="--i:2">
         The studio holds two spheres, design and art, not as separate departments but as
         two expressions of a single creative practice. Both are made with the same attention,
@@ -223,6 +223,7 @@ const process = [
   .svc-hero { padding: var(--space-lg) 0 var(--space-lg); }
   .svc-hero .eyebrow { margin-bottom: var(--space-md); }
   .svc-hero-title {
+    display: block;                 /* second line is a <span>; keep it stacking like the h1 */
     font-family: var(--font-display);
     font-size: var(--fs-display);
     line-height: 0.84;

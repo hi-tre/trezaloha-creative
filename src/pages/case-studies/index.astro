@@ -37,7 +37,7 @@ const tabs = ['all', ...presentTypes];
     <div class="container">
       <p class="eyebrow" data-reveal>Selected Work · Design &amp; Art</p>
       <h1 class="proj-hero-title" data-reveal="mask"><span>Projects With</span></h1>
-      <h1 class="proj-hero-title proj-hero-title--accent" data-reveal="mask" style="--i:1"><span>Real Impact</span></h1>
+      <span class="proj-hero-title proj-hero-title--accent" data-reveal="mask" style="--i:1"><span>Real Impact</span></span>
       <p class="proj-hero-lede" data-reveal style="--i:2">
         Two practices, one ʻōiwi lens. Award-winning design case studies
         alongside a multidisciplinary art practice spanning kapa, carving,
@@ -134,6 +134,7 @@ const tabs = ['all', ...presentTypes];
   .proj-hero .eyebrow { margin-bottom: var(--space-md); }
 
   .proj-hero-title {
+    display: block;                 /* second line is a <span>; keep it stacking like the h1 */
     font-family: var(--font-display);
     font-size: var(--fs-display);
     line-height: 0.86;

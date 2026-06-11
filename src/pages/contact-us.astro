@@ -246,6 +246,13 @@ import { contactFormAction } from '../data/site.mjs';
     border-color: var(--color-accent);
   }
 
+  /* Keyboard focus needs a visible ring (the base rule removes the default outline) */
+  .form-input:focus-visible {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 2px;
+    border-color: var(--color-accent);
+  }
+
   .form-input::placeholder {
     color: var(--color-text-muted);
   }

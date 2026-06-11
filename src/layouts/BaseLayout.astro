@@ -95,8 +95,9 @@ const orgSchema = {
   />
 </head>
 <body>
+  <a href="#main" class="skip-link">Skip to content</a>
   <Nav />
-  <main style="padding-top: var(--nav-height);">
+  <main id="main" style="padding-top: var(--nav-height);">
     <slot />
   </main>
   {footer && <Footer />}

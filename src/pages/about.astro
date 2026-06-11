@@ -39,7 +39,7 @@ const faqs = [
     <div class="container about-hero-head">
       <p class="eyebrow" data-reveal style="--i:0">About · Trezaloha Creative</p>
       <h1 class="about-hero-title" data-reveal="mask" style="--i:1"><span>Aloha! Welcome</span></h1>
-      <h1 class="about-hero-title about-hero-title-2" data-reveal="mask" style="--i:2"><span>to Trezaloha Creative</span></h1>
+      <span class="about-hero-title about-hero-title-2" data-reveal="mask" style="--i:2"><span>to Trezaloha Creative</span></span>
     </div>
     <div class="about-hero-media frame" data-reveal="clip" style="--i:3">
       <Img src="about/hero.jpg" alt="Tre Zamora in a community design session" loading="eager" fetchpriority="high" />
@@ -200,6 +200,7 @@ const faqs = [
   }
   .about-hero-head { margin-bottom: var(--space-md); }
   .about-hero-title {
+    display: block;                 /* second line is a <span>; keep it stacking like the h1 */
     font-family: var(--font-display);
     font-size: var(--fs-display);   /* matches every other page hero */
     line-height: 0.86;
